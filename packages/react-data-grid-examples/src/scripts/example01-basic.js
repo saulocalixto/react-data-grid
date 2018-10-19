@@ -2,6 +2,8 @@ const ReactDataGrid = require('react-data-grid');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
 
+import warcraftAPI from './WarcraftAPI';
+
 class Example extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -16,10 +18,11 @@ class Example extends React.Component {
 
   createRows = () => {
     let rows = [];
-    for (let i = 1; i < 1000; i++) {
+    for (let i = 1; i < 2; i++) {
       rows.push({
         id: i,
-        title: 'Title ' + i,
+        title: warcraftAPI.getAPI('us'),
+        // title: warcraftAPI.toon('us', 'Goldrinn', 'Jayesh'),
         count: i * 1000
       });
     }
