@@ -2,31 +2,44 @@ const ReactDataGrid = require('react-data-grid');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
 
-import warcraftAPI from './WarcraftAPI';
+import * as warcraftAPI from './WarcraftAPI';
 
 class Example extends React.Component {
   constructor(props, context) {
     super(props, context);
+    warcraftAPI.getToon('us', 'Goldrinn', 'Jayesh').then((resultado) => {
+      let level = resultado.level;
+      console.log(resultado);
+      this.createRows(level);
+    });
     this.createRows();
     this._columns = [
-      { key: 'id', name: 'ID' },
-      { key: 'title', name: 'Title' },
-      { key: 'count', name: 'Count' } ];
+      { key: 'count', name: 'Reino' },
+      { key: 'id', name: 'Nome' },
+      { key: 'title', name: 'Level' }];
 
     this.state = null;
   }
 
-  createRows = () => {
+  returnLevel = () => {
+    let level = 10;
+    warcraftAPI.getToon('us', 'Goldrinn', 'Jayesh').then((resultado) => {
+      level = resultado.level;
+      return level;
+    });
+  }
+
+  createRows = (level) => {
     let rows = [];
     for (let i = 1; i < 2; i++) {
       rows.push({
-        id: i,
-        title: warcraftAPI.getAPI('us'),
-        // title: warcraftAPI.toon('us', 'Goldrinn', 'Jayesh'),
-        count: i * 1000
+        count: 'Goldrinn',
+        id: 'Jayesh',
+        // title: warcraftAPI.getAPI('us'),
+        //title: warcraftAPI.getToon('us', 'Goldrinn', 'Jayesh'),
+        title: level
       });
     }
-
     this._rows = rows;
   };
 
