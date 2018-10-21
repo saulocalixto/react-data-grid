@@ -5,7 +5,7 @@ export const getAPI = (region) => {
 };
 
 export const getToon = (region, realmName, toonName) =>
-  fetch(`${getAPI(region)}/character/${realmName}/${toonName}?locale=pt_BR&apikey=${key}`, {
+  fetch(`${getAPI(region)}/character/${realmName}/${toonName}?fields=reputation,statistics,items,quests,achievements,audit,progression,feed,professions,talents&?locale=pt_BR&apikey=${key}`, {
     method: 'GET'
   }).then(res => res.json())
   .then(data => data);
