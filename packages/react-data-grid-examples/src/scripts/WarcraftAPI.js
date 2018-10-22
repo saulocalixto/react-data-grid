@@ -1,19 +1,37 @@
 const key = 'awydkuy9tx3zksd7kkh2g5xchnwv4qy3';
 
+/**
+ * Retorna a URL base para chamada da API.
+ * @param {string} region
+ */
 export const getAPI = (region) => {
   return 'https://' + region + '.api.battle.net/wow';
 };
 
+/**
+ * Consegue os dados do personagem pedido e retorna estes dados como um json.
+ * @param {string} region
+ * @param {string} realmName
+ * @param {string} toonName
+ */
 export const getToon = (region, realmName, toonName) =>
   fetch(`${getAPI(region)}/character/${realmName}/${toonName}?fields=reputation,statistics,items,quests,achievements,audit,progression,feed,professions,talents&?locale=pt_BR&apikey=${key}`, {
     method: 'GET'
   }).then(res => res.json())
   .then(data => data);
 
+/**
+ * Retorna o ilvl (média do nível dos itens) do personagem.
+ * @param {Object} toon
+ */
 export const getToonIlvl = (toon) => {
   return toon.items.averageItemLevel;
 };
 
+/**
+ * Retorna o nome da classe do personagem.
+ * @param {Object} toon
+ */
 export const getToonClass = (toon) => {
   let toonClass = '';
   switch (toon.class) {
@@ -59,6 +77,10 @@ export const getToonClass = (toon) => {
   return toonClass;
 };
 
+/**
+ * Retorna o nome da spec/especialização do personagem.
+ * @param {Object} toon
+ */
 export const getSpecializationName = (toon) => {
   let mainspec = 'none';
   let i = 0;
@@ -70,7 +92,21 @@ export const getSpecializationName = (toon) => {
   return mainspec;
 };
 
-export const getSpecialization = (specName, className) => {
+/**
+ * Retorna a URL onde se encontra a imagem 'thumbnail' do personagem.
+ * @param {Object} toon
+ * @param {string} region
+ */
+export const getToonImageURL = (toon, region) => {
+  return 'http://render-"+region+".worldofwarcraft.com/character/' + region + toon.thumbnail;
+};
+
+/**
+ * Retorna a função desempenhada pela especialização do personagem.
+ * @param {string} specName Nome da especialização (em inglês).
+ * @param {string} className Nome da classe (inglês ou português).
+ */
+export const getRole = (specName, className) => {
   const tank = 'Tank';
   const heal = 'Healer';
   const mdps = 'Melee';
