@@ -28,6 +28,42 @@ export const getToonIlvl = (toon) => {
   return toon.items.averageItemLevel;
 };
 
+export const getItemSlotIlvl = (slot) => {
+  if (slot) {
+    return slot.itemLevel;
+  }
+  return '';
+};
+
+/**
+ * Retorna o ilvl de cada item do personagem, dentro de um vetor, na seguinte ordem:
+ * Cabeça, Colar, Ombros, Manto, Peitoral, Pulsos, Mãos, Cintura, Pernas, Pés, Anel 1, Anel 2, Berloque 1, Berloque 2, Arma Principal, Arma Secundária.
+ *
+ * Obs.: Algumas especializações não usam Arma Secundária, desta forma é normal que este campo venha vazio em alguns personagens.
+ * @param {Object} toon
+ */
+export const getToonIlvlAllItems = (toon) => {
+  if (toon.items) {
+    return [getItemSlotIlvl(toon.items.head),
+      getItemSlotIlvl(toon.items.neck),
+      getItemSlotIlvl(toon.items.shoulder),
+      getItemSlotIlvl(toon.items.back),
+      getItemSlotIlvl(toon.items.chest),
+      getItemSlotIlvl(toon.items.wrist),
+      getItemSlotIlvl(toon.items.hands),
+      getItemSlotIlvl(toon.items.waist),
+      getItemSlotIlvl(toon.items.legs),
+      getItemSlotIlvl(toon.items.feet),
+      getItemSlotIlvl(toon.items.finger1),
+      getItemSlotIlvl(toon.items.finger2),
+      getItemSlotIlvl(toon.items.trinket1),
+      getItemSlotIlvl(toon.items.trinket2),
+      getItemSlotIlvl(toon.items.mainHand),
+      getItemSlotIlvl(toon.items.offHand)];
+  }
+  return ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+};
+
 /**
  * Retorna o nome da classe do personagem.
  * @param {Object} toon
