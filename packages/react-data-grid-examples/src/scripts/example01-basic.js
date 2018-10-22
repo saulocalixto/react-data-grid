@@ -8,15 +8,19 @@ class Example extends React.Component {
   constructor(props, context) {
     super(props, context);
     warcraftAPI.getToon('us', 'Goldrinn', 'Jayesh').then((resultado) => {
-      let level = resultado.level;
+      let ilvl = warcraftAPI.getToonIlvl(resultado);
+      let classe = warcraftAPI.getToonClass(resultado);
+      let spec = warcraftAPI.getSpecializationName(resultado);
       console.log(resultado);
-      this.createRows(level);
+      this.createRows(classe, spec, ilvl);
     });
     this.createRows();
     this._columns = [
-      { key: 'count', name: 'Reino' },
-      { key: 'id', name: 'Nome' },
-      { key: 'title', name: 'Level' }];
+      { key: 'reino', name: 'Reino' },
+      { key: 'nome', name: 'Nome' },
+      { key: 'classe', name: 'Classe' },
+      { key: 'spec', name: 'Especialização' },
+      { key: 'ilvl', name: 'Item Level' }];
 
     this.state = null;
   }
@@ -29,15 +33,15 @@ class Example extends React.Component {
     });
   }
 
-  createRows = (level) => {
+  createRows = (classe, spec, ilvl) => {
     let rows = [];
     for (let i = 1; i < 2; i++) {
       rows.push({
-        count: 'Goldrinn',
-        id: 'Jayesh',
-        // title: warcraftAPI.getAPI('us'),
-        //title: warcraftAPI.getToon('us', 'Goldrinn', 'Jayesh'),
-        title: level
+        reino: 'Goldrinn',
+        nome: 'Jayesh',
+        classe: classe,
+        spec: spec,
+        ilvl: ilvl
       });
     }
     this._rows = rows;

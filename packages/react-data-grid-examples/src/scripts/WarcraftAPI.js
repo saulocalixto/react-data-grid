@@ -10,6 +10,10 @@ export const getToon = (region, realmName, toonName) =>
   }).then(res => res.json())
   .then(data => data);
 
+export const getToonIlvl = (toon) => {
+  return toon.items.averageItemLevel;
+};
+
 export const getToonClass = (toon) => {
   let toonClass = '';
   switch (toon.class) {
@@ -57,6 +61,7 @@ export const getToonClass = (toon) => {
 
 export const getSpecializationName = (toon) => {
   let mainspec = 'none';
+  let i = 0;
   for (i = 0; i < 4; i++) {
     if (toon.talents[i].selected === true) {
       mainspec = toon.talents[i].spec.name;
