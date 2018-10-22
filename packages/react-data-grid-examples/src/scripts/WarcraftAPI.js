@@ -2,7 +2,7 @@ const key = 'awydkuy9tx3zksd7kkh2g5xchnwv4qy3';
 
 /**
  * Retorna a URL base para chamada da API.
- * @param {string} region
+ * @param {string} region 'us' para Americas ou 'eu' para Europa
  */
 export const getAPI = (region) => {
   return 'https://' + region + '.api.battle.net/wow';
@@ -10,7 +10,7 @@ export const getAPI = (region) => {
 
 /**
  * Consegue os dados do personagem pedido e retorna estes dados como um json.
- * @param {string} region
+ * @param {string} region 'us' para Americas ou 'eu' para Europa
  * @param {string} realmName
  * @param {string} toonName
  */
@@ -95,7 +95,7 @@ export const getSpecializationName = (toon) => {
 /**
  * Retorna a URL onde se encontra a imagem 'thumbnail' do personagem.
  * @param {Object} toon
- * @param {string} region
+ * @param {string} region 'us' para Americas ou 'eu' para Europa
  */
 export const getToonImageURL = (toon, region) => {
   return 'http://render-' + region + '.worldofwarcraft.com/character/' + region + toon.thumbnail;
