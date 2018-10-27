@@ -6,6 +6,7 @@ This is a fork of the [React Data Grid](https://github.com/adazzle/react-data-gr
 
 # Instalation 
 ```sh
+npm install lerna
 npm install react-data-grid-wow
 ```
 
