@@ -10,6 +10,5 @@ npm install react-data-grid-wow
 ```
 
 # Credits
-------------
 * [Adazzle (React Data Grid)](https://github.com/adazzle/react-data-grid)
 * [Prometheus Research (Original project called React Grid)](https://github.com/prometheusresearch/react-grid)
