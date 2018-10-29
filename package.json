@@ -1,7 +1,8 @@
 {
-  "name": "react-data-grid",
+  "name": "react-data-grid-wow",
+  "version": "0.1.4",
   "private": true,
-  "description": "Data grid for React",
+  "description": "Data grid for React and Wow",
   "main": "src/index.js",
   "scripts": {
     "pretest": "npm run eslint",
@@ -16,12 +17,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/adazzle/react-data-grid.git"
+    "url": "git://github.com/saulocalixto/react-data-grid-wow.git"
   },
   "keywords": [
     "react",
     "grid",
-    "react-component"
+    "react-component",
+    "wow"
   ],
   "dependencies": {
     "classnames": "^2.2.6",
@@ -82,7 +84,7 @@
     "karma-phantomjs-launcher-nonet": "^0.1.3",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
-    "lerna": "^2.8.0",
+    "lerna": "^3.1.4",
     "minimist": "^1.1.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.22.2",
@@ -107,7 +109,7 @@
   "author": "adazzle",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/adazzle/react-data-grid/issues"
+    "url": "https://github.com/saulocalixto/react-data-grid-wow/issues"
   },
-  "homepage": "https://github.com/adazzle/react-data-grid"
+  "homepage": "https://github.com/saulocalixto/react-data-grid-wow"
 }

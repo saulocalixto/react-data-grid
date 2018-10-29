@@ -1,7 +1,7 @@
 import ReactDataGrid from 'react-data-grid';
 import exampleWrapper from '../components/exampleWrapper';
 import React from 'react';
-import {AreaChart, Area} from 'Recharts';
+////import {AreaChart, Area} from 'Recharts';
 
 const getRandom = (min, max) => {
   min = Math.ceil(min);
@@ -15,10 +15,7 @@ const ExpensiveFormatter = ({isScrolling}) => {
   }
   const items = [...Array(1000).keys()].map(i => ({name: `Page ${i}`, uv: getRandom(0, 4000), pv: getRandom(0, 4000), amt: getRandom(0, 4000)})).slice(0, 50);
   return (
-    <AreaChart width={500} height={50} data={items}
-          margin={{top: 5, right: 0, left: 0, bottom: 5}}>
-      <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-    </AreaChart>
+    <div>Teste</div>
   );
 };
 
