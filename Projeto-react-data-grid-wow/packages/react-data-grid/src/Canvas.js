@@ -92,7 +92,7 @@ class Canvas extends React.PureComponent {
 
   state = {
     scrollingTimeout: null,
-    rows: []
+    linhas: []
   };
 
   rows = [];
@@ -145,7 +145,7 @@ class Canvas extends React.PureComponent {
   }
 
   createRows = (classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao) => {
-    let linhas = this.state.rows;
+    let linhas = this.state.linhas;
 
     // Por algum motivo o createRolls está sendo chamado sem enviar nenhum parâmetro. A condicional abaixo resolve exceções quando allIlvl é null, ou seja, não é enviado.
     let allItemIlvl = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
@@ -185,7 +185,7 @@ class Canvas extends React.PureComponent {
   };
 
   pegaLinha = (i) => {
-    return this.state.rows[i];
+    return this.state.linhas[i];
   };
 
   componentWillUnmount() {
@@ -275,10 +275,10 @@ class Canvas extends React.PureComponent {
   getRows = (rowOverscanStartIdx, rowOverscanEndIdx) => {
     this.pegaDadosPersonagens(this.props.rowGetter);
     this._currentRowsRange = { start: rowOverscanStartIdx, end: rowOverscanEndIdx };
-    if (Array.isArray(this.state.rows)) {
-      return this.state.rows.slice(rowOverscanStartIdx, rowOverscanEndIdx);
+    if (Array.isArray(this.state.linhas)) {
+      return this.state.linhas.slice(rowOverscanStartIdx, rowOverscanEndIdx);
     }
-    let rows = [];
+    let linhas = [];
     let i = rowOverscanStartIdx;
     while (i < rowOverscanEndIdx) {
       let row = this.pegaLinha(i);
@@ -286,10 +286,10 @@ class Canvas extends React.PureComponent {
       if (this.props.getSubRowDetails) {
         subRowDetails = this.props.getSubRowDetails(row);
       }
-      rows.push({ row, subRowDetails });
+      linhas.push({ row, subRowDetails });
       i++;
     }
-    return rows;
+    return linhas;
   };
 
   getScroll = () => {
