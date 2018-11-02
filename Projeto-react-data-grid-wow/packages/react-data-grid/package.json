@@ -1,10 +1,10 @@
 {
   "name": "react-data-grid-wow",
-  "version": "0.1.4",
+  "version": "1.0.0",
   "description": "Excel-like grid component built with React, with editors, keyboard navigation, copy & paste, and the like",
   "scripts": {
-    "beforepublish": "node ../../ci/publish/replacePackageEntry react-data-grid-wow true",
-    "postpublish": "node ../../ci/publish/replacePackageEntry react-data-grid-wow",
+    "beforepublish": "node ../../ci/publish/replacePackageEntry react-data-grid true",
+    "postpublish": "node ../../ci/publish/replacePackageEntry react-data-grid",
     "test": "npm test"
   },
   "keywords": [
@@ -23,5 +23,6 @@
   },
   "dependencies": {
     "lerna": "^3.4.3"
-  }
+  },
+  "gitHead": "c6125207915c3755477de2a4449aedbf9640dd3d"
 }

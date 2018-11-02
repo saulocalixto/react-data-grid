@@ -1,6 +1,6 @@
 {
   "name": "react-data-grid-wow",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "description": "Data grid for React and Wow",
   "main": "src/index.js",
