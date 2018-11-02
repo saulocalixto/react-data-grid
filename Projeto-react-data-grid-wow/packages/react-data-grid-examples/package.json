@@ -1,6 +1,6 @@
 {
   "name": "react-data-grid-examples",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A set of examples for the grid",
   "main": "main.js",
   "scripts": {
@@ -18,8 +18,8 @@
   "license": "MIT",
   "dependencies": {
     "immutability-helper": "^2.7.0",
-    "react-data-grid-addons": "^1.2.0",
-    "react-data-grid-wow": "^1.2.0",
+    "react-data-grid-addons": "^1.2.1",
+    "react-data-grid-wow": "^1.2.1",
     "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
@@ -29,5 +29,5 @@
     "lodash.groupby": "^4.5.1",
     "markdown": "^0.5.0"
   },
-  "gitHead": "da8b5737a770fcf8d6c1b881f26fdfbcc4d7d672"
+  "gitHead": "47ed7a33b41a3b342b3e34bd952cfb4a2c723bdb"
 }

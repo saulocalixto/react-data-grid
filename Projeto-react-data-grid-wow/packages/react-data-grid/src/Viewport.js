@@ -19,7 +19,6 @@ import {
 
 const colunasWow = [
   { key: 'reino', name: 'Reino' },
-  { key: 'avatar', name: 'Avatar', width: 60, formatter: Formatters.ImageFormatter },
   { key: 'nome', name: 'Nome' },
   { key: 'classe', name: 'Classe' },
   { key: 'spec', name: 'Especialização', width: 150 },
@@ -132,7 +131,6 @@ class Viewport extends React.Component {
     for (let i = 1; i < 2; i++) {
       rows.push({
         reino: reino,
-        avatar: warcraftAPI.getToonImageURL(thumbnail, regiao),
         nome: nome,
         classe: classe,
         spec: spec,
