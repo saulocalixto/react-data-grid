@@ -1,5 +1,5 @@
 import * as warcraftAPI from './api/usuarioApi';
-import ReactDataGrid from 'react-data-grid-wow'
+import ReactDataGrid from 'react-data-grid'
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
 import * as Map from "./Maps.js";
@@ -106,7 +106,7 @@ class Grid extends Component {
       <div>
       <ReactDataGrid
         columns={this._columns}
-        rowGetter={this.props.personagens}
+        rowGetter={this.rowGetter}
         rowsCount={this.state.rows.length}
         minHeight={500} />
         <Button
