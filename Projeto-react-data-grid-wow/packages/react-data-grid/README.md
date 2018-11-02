@@ -1,45 +1,23 @@
-# react-data-grid
+# React Data Grid WoW
 
-> The core of react-data-grid
- 
+React Grid that displays a customizable table with data from World of Warcraft characters (class, item level, etc.)
 
-## Install
+This is a fork of the [React Data Grid](https://github.com/adazzle/react-data-grid) made by [Adazzle](https://github.com/adazzle/react-data-grid) for a college project (Software Engineering at Universidade Federal de Goiás, Brazil).
 
+# Instalation 
 ```sh
-npm install --save react-data-grid
+npm install lerna
+npm install react-data-grid-wow
 ```
 
-## Usage 
+# Credits
+### Our group
+* [Fernando Callata](https://github.com/fernandohre)
+* [Lucas Sampaio Dias](https://github.com/sampaiodias)
+* [Murillo Nunes](https://github.com/murillonunes)
+* [Saulo Calixto](https://github.com/saulocalixto)
 
-```sh
-import ReactDataGrid from 'react-data-grid';
-
-const columns = [{ key: 'id', name: 'ID' }, { key: 'title', name: 'Title' }];
-const rows = [{ id: 1, title: 'Title 1' }, ...];
-const rowGetter = rowNumber => rows[rowNumber];
-
-const Grid = () => {
-  return <ReactDataGrid
-    columns={columns}
-    rowGetter={rowGetter}
-    rowsCount={rows.length}
-    minHeight={500} />);
-}
-```
-
-## Exports
-Asside from the grid this package exports:
-
-name                   | source                                  |
------------------------|-----------------------------------------|
-RowComparer            | [RowComparer](./src/RowComparer.js)     |
-RowsContainer          | [RowsContainer](./src/RowsContainer.js) |
-Row                    | [Row](./src/Row.js)                     |
-Cell                   | [Cell](./src/Cell.js)                   |
-HeaderCell             | [HeaderCell](./src/HeaderCell.js)       |
-editors                | [Editors](./src/editors)                |
-formatters             | [Formatters](./src/formatters)          |
-utils                  | [utils](./src/utils)                    |
-shapes                 | [shapes](./src/PropTypeShapes)          |
-_constants             | [_constants](./src/AppConstants.js)     |
-_helpers               | [_helpers](./src/helpers)               |
+### Honorable mentions
+* [Taciano Moraes (our teacher)](https://github.com/tacianomm)
+* [Adazzle (React Data Grid)](https://github.com/adazzle/react-data-grid)
+* [Prometheus Research (original project called React Grid)](https://github.com/prometheusresearch/react-grid)

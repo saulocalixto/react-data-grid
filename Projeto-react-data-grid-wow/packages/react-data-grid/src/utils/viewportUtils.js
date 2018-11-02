@@ -32,7 +32,8 @@ export const getGridState = (props) => {
     colOverscanStartIdx: 0,
     colOverscanEndIdx: totalNumberColumns,
     isScrolling: false,
-    lastFrozenColumnIndex: 0
+    lastFrozenColumnIndex: 0,
+    linhas: []
   };
 };
 
