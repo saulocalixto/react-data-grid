@@ -36,6 +36,21 @@ class GridCharacters extends Component {
       };
 
       componentDidMount = () => {
+        let rows = this.state.rows;
+    
+        rows.push({
+        reino: 'Goldrinn',
+        nome: 'Jayesh',
+        regiao: 'us',
+        });
+
+        rows.push({
+          reino: 'Azralon',
+          nome: 'Halo',
+          regiao: 'us',
+          });
+
+        this.setState({ rows });
       }
 
       handleClick = () =>  {

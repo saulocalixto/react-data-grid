@@ -133,8 +133,8 @@ export const getSpecializationName = (toon) => {
  * @param {Object} toon
  * @param {string} region 'us' para Americas ou 'eu' para Europa
  */
-export const getToonImageURL = (toon, region) => {
-  return 'http://render-' + region + '.worldofwarcraft.com/character/' + region + toon.thumbnail;
+export const getToonImageURL = (toonThumb, region) => {
+  return `http://render-${region}.worldofwarcraft.com/character/${toonThumb}`
 };
 
 /**

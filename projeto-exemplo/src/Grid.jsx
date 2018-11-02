@@ -1,9 +1,13 @@
 import * as warcraftAPI from './api/usuarioApi';
-import ReactDataGrid from 'react-data-grid'
+import ReactDataGrid from 'react-data-grid-wow'
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
 import * as Map from "./Maps.js";
 import { connect } from "react-redux";
+import { Button } from 'semantic-ui-react'
+const {
+  Formatters: { ImageFormatter }
+} = require('react-data-grid-addons');
 
 
 
@@ -13,23 +17,25 @@ class Grid extends Component {
 
     this.props.personagens.forEach(personagem => {
       const { reino, nome, regiao } = personagem;
-
+      
       warcraftAPI.getToon(regiao, reino, nome).then((resultado) => {
         if(resultado.status !== "nok") {
           let ilvl = warcraftAPI.getToonIlvl(resultado);
           let classe = warcraftAPI.getToonClass(resultado);
           let spec = warcraftAPI.getSpecializationName(resultado);
           let ilvlItems = warcraftAPI.getToonIlvlAllItems(resultado);
-          this.createRows(classe, spec, ilvl, ilvlItems, nome, reino);
+          let thumbnail = resultado.thumbnail;
+          this.createRows(classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao);
         }
       });
     });
 
     this._columns = [
       { key: 'reino', name: 'Reino' },
+      { key: 'avatar', name: 'Avatar', width: 60, formatter: ImageFormatter },
       { key: 'nome', name: 'Nome' },
       { key: 'classe', name: 'Classe' },
-      { key: 'spec', name: 'Especialização' },
+      { key: 'spec', name: 'Especialização', width: 150 },
       { key: 'ilvl', name: 'Item Level' },
       { key: 'item0', name: 'Cabeça' },
       { key: 'item1', name: 'Colar' },
@@ -43,17 +49,17 @@ class Grid extends Component {
       { key: 'item9', name: 'Pés' },
       { key: 'item10', name: 'Anel 1' },
       { key: 'item11', name: 'Anel 2' },
-      { key: 'item12', name: 'Berloque 1' },
-      { key: 'item13', name: 'Berloque 2' },
-      { key: 'item14', name: 'Arma Principal' },
-      { key: 'item15', name: 'Arma Secundária' }];
+      { key: 'item12', name: 'Berloque 1', width: 100 },
+      { key: 'item13', name: 'Berloque 2', width: 100 },
+      { key: 'item14', name: 'Arma Principal', width: 140 },
+      { key: 'item15', name: 'Arma Secundária', width: 140 }];
   }
 
   state = {
     rows: []
   };
 
-  createRows = (classe, spec, ilvl, ilvlItems, nome, reino) => {
+  createRows = (classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao) => {
     let rows = this.state.rows;
 
     // Por algum motivo o createRolls está sendo chamado sem enviar nenhum parâmetro. A condicional abaixo resolve exceções quando allIlvl é null, ou seja, não é enviado.
@@ -67,6 +73,7 @@ class Grid extends Component {
     for (let i = 1; i < 2; i++) {
       rows.push({
         reino: reino,
+        avatar: warcraftAPI.getToonImageURL(thumbnail, regiao),
         nome: nome,
         classe: classe,
         spec: spec,
@@ -98,11 +105,20 @@ class Grid extends Component {
 
   render() {
     return  (
+      <div>
       <ReactDataGrid
         columns={this._columns}
         rowGetter={this.rowGetter}
         rowsCount={this.state.rows.length}
-        minHeight={500} />);
+        minHeight={500} />
+        <Button
+                    onClick={ () => this.props.history.push("/") } 
+                    secondary style={{ marginTop: 10 }}>
+                        Voltar
+                    </Button>
+
+                </div>
+        );
   }
 }
 
