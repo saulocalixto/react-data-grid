@@ -5,9 +5,7 @@ import { withRouter } from "react-router-dom";
 import * as Map from "./Maps.js";
 import { connect } from "react-redux";
 import { Button } from 'semantic-ui-react'
-const {
-  Formatters: { ImageFormatter }
-} = require('react-data-grid-addons');
+import { Formatters } from 'react-data-grid-addons';
 
 
 
@@ -32,7 +30,7 @@ class Grid extends Component {
 
     this._columns = [
       { key: 'reino', name: 'Reino' },
-      { key: 'avatar', name: 'Avatar', width: 60, formatter: ImageFormatter },
+      { key: 'avatar', name: 'Avatar', width: 60, formatter: Formatters.ImageFormatter },
       { key: 'nome', name: 'Nome' },
       { key: 'classe', name: 'Classe' },
       { key: 'spec', name: 'Especialização', width: 150 },
@@ -112,10 +110,10 @@ class Grid extends Component {
         rowsCount={this.state.rows.length}
         minHeight={500} />
         <Button
-                    onClick={ () => this.props.history.push("/") } 
-                    secondary style={{ marginTop: 10 }}>
-                        Voltar
-                    </Button>
+          onClick={ () => this.props.history.push("/") } 
+          secondary style={{ marginTop: 10 }}>
+              Voltar
+          </Button>
 
                 </div>
         );

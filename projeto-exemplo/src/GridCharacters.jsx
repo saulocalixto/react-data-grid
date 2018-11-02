@@ -108,7 +108,6 @@ class GridCharacters extends Component {
                     columns={this.state.columns}
                     rowGetter={this.rowGetter}
                     rowsCount={this.state.rows.length}
-                    enableRowSelect={true}
                     onGridRowsUpdated={this.handleGridRowsUpdated}
                     toolbar={<Toolbar onAddRow={this.handleAddRow}/>}
                     minHeight={450} />
