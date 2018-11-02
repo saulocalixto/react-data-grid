@@ -157,6 +157,9 @@ class Viewport extends React.Component {
   };
 
   pegaLinha = (i) => {
+    if (this.state.linhas.length === 0) {
+      this.pegaToon();
+    }
     return this.state.linhas[i];
   };
 
