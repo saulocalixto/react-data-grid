@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactDataGrid from 'react-data-grid-wow'
+import ReactDataGrid from 'react-data-grid'
 import { Toolbar, Editors } from 'react-data-grid-addons';
 import update from 'immutability-helper';
 import { Button } from 'semantic-ui-react'

@@ -10,7 +10,7 @@
     "react": "^16.6.0",
     "react-data-grid": "^5.0.1",
     "react-data-grid-addons": "^5.0.1",
-    "react-data-grid-wow": "^0.1.4",
+    "react-data-grid-wow": "^1.0.0",
     "react-dom": "^16.6.0",
     "react-redux": "^5.1.0",
     "react-router-dom": "^4.3.1",

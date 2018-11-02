@@ -12,6 +12,8 @@ import { EventTypes } from 'common/constants';
 import * as warcraftAPI from './utils/ApiWow';
 require('../../../themes/react-data-grid-core.css');
 
+const rows = [];
+
 class Canvas extends React.PureComponent {
 
   static propTypes = {
@@ -143,7 +145,7 @@ class Canvas extends React.PureComponent {
   }
 
   createRows = (classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao) => {
-    let rows = this.state.rows;
+    let linhas = this.state.rows;
 
     // Por algum motivo o createRolls está sendo chamado sem enviar nenhum parâmetro. A condicional abaixo resolve exceções quando allIlvl é null, ou seja, não é enviado.
     let allItemIlvl = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
@@ -154,7 +156,7 @@ class Canvas extends React.PureComponent {
     }
 
     for (let i = 1; i < 2; i++) {
-      rows.push({
+      linhas.push({
         reino: reino,
         avatar: warcraftAPI.getToonImageURL(thumbnail, regiao),
         nome: nome,
@@ -179,7 +181,7 @@ class Canvas extends React.PureComponent {
         item15: allItemIlvl[15]
       });
     }
-    this.setState({ rows });
+    this.setState({ linhas });
   };
 
   pegaLinha = (i) => {

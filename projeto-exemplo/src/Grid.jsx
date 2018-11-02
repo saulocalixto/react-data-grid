@@ -106,7 +106,7 @@ class Grid extends Component {
       <div>
       <ReactDataGrid
         columns={this._columns}
-        rowGetter={this.rowGetter}
+        rowGetter={this.props.personagens}
         rowsCount={this.state.rows.length}
         minHeight={500} />
         <Button
