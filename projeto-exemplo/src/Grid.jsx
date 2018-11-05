@@ -6,7 +6,9 @@ import * as Map from "./Maps.js";
 import { connect } from "react-redux";
 import { Button } from 'semantic-ui-react'
 import { Formatters } from 'react-data-grid-addons';
-
+const {
+  DraggableHeader: { DraggableContainer }
+} = require('react-data-grid-addons');
 
 
 class Grid extends Component {
@@ -28,33 +30,58 @@ class Grid extends Component {
       });
     });
 
-    this._columns = [
-      { key: 'reino', name: 'Reino' },
-      { key: 'avatar', name: 'Avatar', width: 60, formatter: Formatters.ImageFormatter },
-      { key: 'nome', name: 'Nome', sortable: true },
-      { key: 'classe', name: 'Classe', sortable: true },
-      { key: 'spec', name: 'Especialização', width: 150, sortable: true },
-      { key: 'ilvl', name: 'Item Level', sortable: true },
-      { key: 'item0', name: 'Cabeça', sortable: true },
-      { key: 'item1', name: 'Colar', sortable: true },
-      { key: 'item2', name: 'Peitoral', sortable: true },
-      { key: 'item3', name: 'Manto', sortable: true },
-      { key: 'item4', name: 'Peitoral', sortable: true },
-      { key: 'item5', name: 'Pulsos', sortable: true },
-      { key: 'item6', name: 'Mãos', sortable: true },
-      { key: 'item7', name: 'Cintura', sortable: true },
-      { key: 'item8', name: 'Pernas', sortable: true },
-      { key: 'item9', name: 'Pés', sortable: true },
-      { key: 'item10', name: 'Anel 1', sortable: true },
-      { key: 'item11', name: 'Anel 2', sortable: true },
-      { key: 'item12', name: 'Berloque 1', width: 100, sortable: true },
-      { key: 'item13', name: 'Berloque 2', width: 100, sortable: true },
-      { key: 'item14', name: 'Arma Principal', width: 140, sortable: true },
-      { key: 'item15', name: 'Arma Secundária', width: 140, sortable: true }];
+    this.columns = [
+      { key: 'reino', name: 'Reino', draggable: true },
+      { key: 'avatar', name: 'Avatar', width: 60, formatter: Formatters.ImageFormatter, draggable: true },
+      { key: 'nome', name: 'Nome', sortable: true, draggable: true },
+      { key: 'classe', name: 'Classe', sortable: true, draggable: true },
+      { key: 'spec', name: 'Especialização', width: 150, sortable: true, draggable: true },
+      { key: 'ilvl', name: 'Item Level', sortable: true, draggable: true },
+      { key: 'item0', name: 'Cabeça', sortable: true, draggable: true },
+      { key: 'item1', name: 'Colar', sortable: true, draggable: true },
+      { key: 'item2', name: 'Peitoral', sortable: true, draggable: true },
+      { key: 'item3', name: 'Manto', sortable: true, draggable: true },
+      { key: 'item4', name: 'Peitoral', sortable: true, draggable: true },
+      { key: 'item5', name: 'Pulsos', sortable: true, draggable: true },
+      { key: 'item6', name: 'Mãos', sortable: true, draggable: true },
+      { key: 'item7', name: 'Cintura', sortable: true, draggable: true },
+      { key: 'item8', name: 'Pernas', sortable: true, draggable: true },
+      { key: 'item9', name: 'Pés', sortable: true, draggable: true },
+      { key: 'item10', name: 'Anel 1', sortable: true, draggable: true },
+      { key: 'item11', name: 'Anel 2', sortable: true, draggable: true },
+      { key: 'item12', name: 'Berloque 1', width: 100, sortable: true, draggable: true },
+      { key: 'item13', name: 'Berloque 2', width: 100, sortable: true, draggable: true },
+      { key: 'item14', name: 'Arma Principal', width: 140, sortable: true, draggable: true },
+      { key: 'item15', name: 'Arma Secundária', width: 140, sortable: true, draggable: true }];
   }
 
   state = {
-    rows: []
+    rows: [],
+    columns: [
+      { key: 'reino', name: 'Reino', draggable: true },
+      { key: 'avatar', name: 'Avatar', width: 60, formatter: Formatters.ImageFormatter, draggable: true },
+      { key: 'nome', name: 'Nome', sortable: true, draggable: true },
+      { key: 'classe', name: 'Classe', sortable: true, draggable: true },
+      { key: 'spec', name: 'Especialização', width: 150, sortable: true, draggable: true },
+      { key: 'ilvl', name: 'Item Level', sortable: true, draggable: true },
+      { key: 'item0', name: 'Cabeça', sortable: true, draggable: true },
+      { key: 'item1', name: 'Colar', sortable: true, draggable: true },
+      { key: 'item2', name: 'Peitoral', sortable: true, draggable: true },
+      { key: 'item3', name: 'Manto', sortable: true, draggable: true },
+      { key: 'item4', name: 'Peitoral', sortable: true, draggable: true },
+      { key: 'item5', name: 'Pulsos', sortable: true, draggable: true },
+      { key: 'item6', name: 'Mãos', sortable: true, draggable: true },
+      { key: 'item7', name: 'Cintura', sortable: true, draggable: true },
+      { key: 'item8', name: 'Pernas', sortable: true, draggable: true },
+      { key: 'item9', name: 'Pés', sortable: true, draggable: true },
+      { key: 'item10', name: 'Anel 1', sortable: true, draggable: true },
+      { key: 'item11', name: 'Anel 2', sortable: true, draggable: true },
+      { key: 'item12', name: 'Berloque 1', width: 100, sortable: true, draggable: true },
+      { key: 'item13', name: 'Berloque 2', width: 100, sortable: true, draggable: true },
+      { key: 'item14', name: 'Arma Principal', width: 140, sortable: true, draggable: true },
+      { key: 'item15', name: 'Arma Secundária', width: 140, sortable: true, draggable: true }
+    ],
+    originalRows: []
   };
 
   createRows = (classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao) => {
@@ -94,7 +121,39 @@ class Grid extends Component {
         item15: allItemIlvl[15]
       });
     }
+    
     this.setState({ rows });
+    let originalRows = rows;
+    this.setState({ originalRows });
+    let columns = this.columns;
+    this.setState({ columns });
+  };
+
+  onHeaderDrop = (source, target) => {
+    const stateCopy = Object.assign({}, this.state);
+
+    const columnSourceIndex = this.state.columns.findIndex(
+      i => i.key === source
+    );
+    const columnTargetIndex = this.state.columns.findIndex(
+      i => i.key === target
+    );
+
+    stateCopy.columns.splice(
+      columnTargetIndex,
+      0,
+      stateCopy.columns.splice(columnSourceIndex, 1)[0]
+    );
+
+    const emptyColumns = Object.assign({},this.state, { columns: [] });
+    this.setState(
+      emptyColumns
+    );
+
+    const reorderedColumns = Object.assign({},this.state, { columns: stateCopy.columns });
+    this.setState(
+      reorderedColumns
+    );
   };
 
   handleGridSort = (sortColumn, sortDirection) => {
@@ -105,7 +164,7 @@ class Grid extends Component {
         return (a[sortColumn] < b[sortColumn]) ? 1 : -1;
       }
     };
-
+    
     const rows = sortDirection === 'NONE' ? this.state.originalRows.slice(0) : this.state.rows.sort(comparer);
 
     this.setState({ rows });
@@ -118,20 +177,22 @@ class Grid extends Component {
   render() {
     return  (
       <div>
-      <ReactDataGrid
-        onGridSort={this.handleGridSort}
-        columns={this._columns}
-        rowGetter={this.rowGetter}
-        rowsCount={this.state.rows.length}
-        minHeight={500} />
-        <Button
-          onClick={ () => this.props.history.push("/") } 
-          secondary style={{ marginTop: 10 }}>
-              Voltar
-          </Button>
-
-                </div>
-        );
+      <DraggableContainer onHeaderDrop={this.onHeaderDrop}>
+        <ReactDataGrid
+          onGridSort={this.handleGridSort}
+          columns={this.state.columns}
+          rowGetter={this.rowGetter}
+          rowsCount={this.state.rows.length}
+          minHeight={500} 
+          />
+      </DraggableContainer>
+      <Button
+        onClick={ () => this.props.history.push("/") } 
+        secondary style={{ marginTop: 10 }}>
+            Voltar
+      </Button>
+      </div>
+    );
   }
 }
 
