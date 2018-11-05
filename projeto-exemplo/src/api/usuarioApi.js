@@ -138,6 +138,24 @@ export const getToonImageURL = (toonThumb, region) => {
 };
 
 /**
+ * Retorna a cor padrão para se colorir uma célula de nível de item (Cabeça, Colar, etc.) de acordo com seu valor.
+ * A cor retornada está no padrão HEX. Exemplo: '#ff1000' é vermelho.
+ * @param {Integer} itemLevel
+ */
+export const getDefaultColor = (itemLevel) => {
+  if (itemLevel >= 370)
+    return '#6617f9';
+
+  else if (itemLevel >= 340)
+    return '#1437ff';
+
+  else if (itemLevel >= 325)
+    return '#14c0ff';  
+
+  return '#18f942';
+};
+
+/**
  * Retorna a função desempenhada pela especialização do personagem.
  * @param {string} specName Nome da especialização (em inglês).
  * @param {string} className Nome da classe (inglês ou português).
