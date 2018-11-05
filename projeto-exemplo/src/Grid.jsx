@@ -31,26 +31,26 @@ class Grid extends Component {
     this._columns = [
       { key: 'reino', name: 'Reino' },
       { key: 'avatar', name: 'Avatar', width: 60, formatter: Formatters.ImageFormatter },
-      { key: 'nome', name: 'Nome' },
-      { key: 'classe', name: 'Classe' },
-      { key: 'spec', name: 'Especialização', width: 150 },
-      { key: 'ilvl', name: 'Item Level' },
-      { key: 'item0', name: 'Cabeça' },
-      { key: 'item1', name: 'Colar' },
-      { key: 'item2', name: 'Peitoral' },
-      { key: 'item3', name: 'Manto' },
-      { key: 'item4', name: 'Peitoral' },
-      { key: 'item5', name: 'Pulsos' },
-      { key: 'item6', name: 'Mãos' },
-      { key: 'item7', name: 'Cintura' },
-      { key: 'item8', name: 'Pernas' },
-      { key: 'item9', name: 'Pés' },
-      { key: 'item10', name: 'Anel 1' },
-      { key: 'item11', name: 'Anel 2' },
-      { key: 'item12', name: 'Berloque 1', width: 100 },
-      { key: 'item13', name: 'Berloque 2', width: 100 },
-      { key: 'item14', name: 'Arma Principal', width: 140 },
-      { key: 'item15', name: 'Arma Secundária', width: 140 }];
+      { key: 'nome', name: 'Nome', sortable: true },
+      { key: 'classe', name: 'Classe', sortable: true },
+      { key: 'spec', name: 'Especialização', width: 150, sortable: true },
+      { key: 'ilvl', name: 'Item Level', sortable: true },
+      { key: 'item0', name: 'Cabeça', sortable: true },
+      { key: 'item1', name: 'Colar', sortable: true },
+      { key: 'item2', name: 'Peitoral', sortable: true },
+      { key: 'item3', name: 'Manto', sortable: true },
+      { key: 'item4', name: 'Peitoral', sortable: true },
+      { key: 'item5', name: 'Pulsos', sortable: true },
+      { key: 'item6', name: 'Mãos', sortable: true },
+      { key: 'item7', name: 'Cintura', sortable: true },
+      { key: 'item8', name: 'Pernas', sortable: true },
+      { key: 'item9', name: 'Pés', sortable: true },
+      { key: 'item10', name: 'Anel 1', sortable: true },
+      { key: 'item11', name: 'Anel 2', sortable: true },
+      { key: 'item12', name: 'Berloque 1', width: 100, sortable: true },
+      { key: 'item13', name: 'Berloque 2', width: 100, sortable: true },
+      { key: 'item14', name: 'Arma Principal', width: 140, sortable: true },
+      { key: 'item15', name: 'Arma Secundária', width: 140, sortable: true }];
   }
 
   state = {
@@ -97,6 +97,20 @@ class Grid extends Component {
     this.setState({ rows });
   };
 
+  handleGridSort = (sortColumn, sortDirection) => {
+    const comparer = (a, b) => {
+      if (sortDirection === 'ASC') {
+        return (a[sortColumn] > b[sortColumn]) ? 1 : -1;
+      } else if (sortDirection === 'DESC') {
+        return (a[sortColumn] < b[sortColumn]) ? 1 : -1;
+      }
+    };
+
+    const rows = sortDirection === 'NONE' ? this.state.originalRows.slice(0) : this.state.rows.sort(comparer);
+
+    this.setState({ rows });
+  };
+
   rowGetter = (i) => {
     return this.state.rows[i];
   };
@@ -105,6 +119,7 @@ class Grid extends Component {
     return  (
       <div>
       <ReactDataGrid
+        onGridSort={this.handleGridSort}
         columns={this._columns}
         rowGetter={this.rowGetter}
         rowsCount={this.state.rows.length}
