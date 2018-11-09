@@ -40,7 +40,7 @@ class GridCharacters extends Component {
     
         rows.push({
         reino: 'Goldrinn',
-        nome: 'Jayesh',
+        nome: 'Pyroclásmica',
         regiao: 'us',
         });
 
@@ -48,7 +48,19 @@ class GridCharacters extends Component {
           reino: 'Azralon',
           nome: 'Halo',
           regiao: 'us',
-          });
+        });
+
+        rows.push({
+          reino: 'Burning Legion',
+          nome: 'Cjei',
+          regiao: 'us',
+        });
+
+        rows.push({
+          reino: 'Burning Legion',
+          nome: 'Armous',
+          regiao: 'us',
+        });
 
         this.setState({ rows });
       }

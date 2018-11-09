@@ -32,14 +32,15 @@ class Grid extends Component {
     });
 
     this.columns = [
-      { key: 'reino', name: 'Reino', draggable: true },
+      { key: 'reino', name: 'Reino', width: 170, draggable: true },
       { key: 'avatar', name: 'Avatar', width: 60, formatter: Formatters.ImageFormatter, draggable: true },
-      { key: 'nome', name: 'Nome', sortable: true, draggable: true },
-      { key: 'classe', name: 'Classe', sortable: true, draggable: true },
+      { key: 'nome', name: 'Nome', width: 170, sortable: true, draggable: true },
+      { key: 'classe', name: 'Classe', width: 150, sortable: true, draggable: true },
       { key: 'spec', name: 'Especialização', width: 150, sortable: true, draggable: true },
-      { key: 'ilvl', name: 'Item Level', sortable: true, draggable: true },
+      { key: 'ilvl', name: 'Item Level', width: 120, sortable: true, draggable: true },
       { key: 'cabeca', name: 'Cabeça', sortable: true, draggable: true },
       { key: 'colar', name: 'Colar', sortable: true, draggable: true },
+      { key: 'ombros', name: 'Ombros', sortable: true, draggable: true },
       { key: 'peitoral', name: 'Peitoral', sortable: true, draggable: true },
       { key: 'manto', name: 'Manto', sortable: true, draggable: true },
       { key: 'pulsos', name: 'Pulsos', sortable: true, draggable: true },
@@ -66,6 +67,7 @@ class Grid extends Component {
       { key: 'ilvl', name: 'Item Level', sortable: true, draggable: true },
       { key: 'cabeca', name: 'Cabeça', sortable: true, draggable: true },
       { key: 'colar', name: 'Colar', sortable: true, draggable: true },
+      { key: 'ombros', name: 'Ombros', sortable: true, draggable: true },
       { key: 'peitoral', name: 'Peitoral', sortable: true, draggable: true },
       { key: 'manto', name: 'Manto', sortable: true, draggable: true },
       { key: 'pulsos', name: 'Pulsos', sortable: true, draggable: true },
@@ -87,9 +89,9 @@ class Grid extends Component {
     let rows = this.state.rows;
 
     // Por algum motivo o createRolls está sendo chamado sem enviar nenhum parâmetro. A condicional abaixo resolve exceções quando allIlvl é null, ou seja, não é enviado.
-    let allItemIlvl = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+    let allItemIlvl = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
     if (!ilvlItems) {
-      allItemIlvl = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+      allItemIlvl = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
     }else {
       allItemIlvl = ilvlItems;
     }
@@ -104,19 +106,20 @@ class Grid extends Component {
         ilvl: ilvl,
         cabeca: allItemIlvl[0],
         colar: allItemIlvl[1],
-        peitoral: allItemIlvl[2],
-        manto: allItemIlvl[3],
-        pulsos: allItemIlvl[4],
-        maos: allItemIlvl[5],
-        cintura: allItemIlvl[6],
-        pernas: allItemIlvl[7],
-        pes: allItemIlvl[8],
-        anel1: allItemIlvl[9],
-        anel2: allItemIlvl[10],
-        berloque1: allItemIlvl[11],
-        berloque2: allItemIlvl[12],
-        armaPrincipal: allItemIlvl[13],
-        armasecundaria: allItemIlvl[14]
+        ombros: allItemIlvl[2],
+        peitoral: allItemIlvl[3],
+        manto: allItemIlvl[4],
+        pulsos: allItemIlvl[5],
+        maos: allItemIlvl[6],
+        cintura: allItemIlvl[7],
+        pernas: allItemIlvl[8],
+        pes: allItemIlvl[9],
+        anel1: allItemIlvl[10],
+        anel2: allItemIlvl[11],
+        berloque1: allItemIlvl[12],
+        berloque2: allItemIlvl[13],
+        armaPrincipal: allItemIlvl[14],
+        armaSecundaria: allItemIlvl[15]
       });
     }
     
