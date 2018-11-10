@@ -16,19 +16,15 @@ class Grid extends Component {
   constructor(props, context) {
     super(props, context);
 
+    let delay = 0;
     this.props.personagens.forEach(personagem => {
       const { reino, nome, regiao } = personagem;
-      
-      warcraftAPI.getToon(regiao, reino, nome).then((resultado) => {
-        if(resultado.status !== "nok") {
-          let ilvl = warcraftAPI.getToonIlvl(resultado);
-          let classe = warcraftAPI.getToonClass(resultado);
-          let spec = warcraftAPI.getSpecializationName(resultado);
-          let ilvlItems = warcraftAPI.getToonIlvlAllItems(resultado);
-          let thumbnail = resultado.thumbnail;
-          this.createRows(classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao);
-        }
-      });
+
+      // Cria as linhas fazendo cada requisição com um delay de uma para outra
+      // para não afogar o serviço, fazendo com que a API não pare de responder
+      // ao mandar uma grande quantidade de personagens de uma só vez.
+      createRow(reino, nome, regiao, delay, this);
+      delay += 100;
     });
 
     this.columns = [
@@ -196,6 +192,24 @@ class Grid extends Component {
       </div>
     );
   }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function createRow(reino, nome, regiao, delay, grid) {
+  await sleep(delay);
+  warcraftAPI.getToon(regiao, reino, nome).then((resultado) => {
+    if(resultado.status !== "nok") {
+      let ilvl = warcraftAPI.getToonIlvl(resultado);
+      let classe = warcraftAPI.getToonClass(resultado);
+      let spec = warcraftAPI.getSpecializationName(resultado);
+      let ilvlItems = warcraftAPI.getToonIlvlAllItems(resultado);
+      let thumbnail = resultado.thumbnail;
+      grid.createRows(classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao);
+    }
+  });
 }
 
 export default withRouter(connect(Map.mapStateToProps, Map.mapDispatchToProps)(Grid));
