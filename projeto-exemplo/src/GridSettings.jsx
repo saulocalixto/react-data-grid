@@ -20,8 +20,7 @@ class GridSettings extends Component {
     }
     render() {
         return (
-            <Icon name="setting"
-                  Secondary Style ={{ marginTop: 10}}>
+            <Icon name="setting">
             </Icon>
         );
     }
