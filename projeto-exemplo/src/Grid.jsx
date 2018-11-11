@@ -5,9 +5,10 @@ import { withRouter } from "react-router-dom";
 import * as Map from "./Maps.js";
 import { connect } from "react-redux";
 import { Button } from 'semantic-ui-react'
-import { Formatters } from 'react-data-grid-addons';
+import { Formatters, Toolbar } from 'react-data-grid-addons';
 import GridSettings from "./GridSettings";
 import update from 'immutability-helper';
+import { Icon } from 'semantic-ui-react';
 const {
   DraggableHeader: { DraggableContainer }
 } = require('react-data-grid-addons');
@@ -83,6 +84,18 @@ class Grid extends Component {
     originalRows: []
   };
 
+  handleAddRow = ({ newRowIndex }) => {
+    const newRow = {
+        value: newRowIndex,
+        reino: '',
+        nome: '',
+    };
+
+    let rows = this.state.rows.slice();
+    rows = update(rows, {$push: [newRow]});
+    this.setState({ rows });
+  };
+
   createRows = (classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao) => {
     let rows = this.state.rows;
 
@@ -126,6 +139,43 @@ class Grid extends Component {
     this.setState({ originalRows });
     let columns = this.columns;
     this.setState({ columns });
+  };
+
+  crieLinha = (classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao) => {
+    // Por algum motivo o createRolls está sendo chamado sem enviar nenhum parâmetro. A condicional abaixo resolve exceções quando allIlvl é null, ou seja, não é enviado.
+    let allItemIlvl = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+    if (!ilvlItems) {
+      allItemIlvl = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+    }else {
+      allItemIlvl = ilvlItems;
+    }
+
+      let row = {
+        reino: reino,
+        avatar: warcraftAPI.getToonImageURL(thumbnail, regiao),
+        nome: nome,
+        classe: classe,
+        spec: spec,
+        ilvl: ilvl,
+        cabeca: allItemIlvl[0],
+        colar: allItemIlvl[1],
+        ombros: allItemIlvl[2],
+        peitoral: allItemIlvl[3],
+        manto: allItemIlvl[4],
+        pulsos: allItemIlvl[5],
+        maos: allItemIlvl[6],
+        cintura: allItemIlvl[7],
+        pernas: allItemIlvl[8],
+        pes: allItemIlvl[9],
+        anel1: allItemIlvl[10],
+        anel2: allItemIlvl[11],
+        berloque1: allItemIlvl[12],
+        berloque2: allItemIlvl[13],
+        armaPrincipal: allItemIlvl[14],
+        armaSecundaria: allItemIlvl[15]
+      };
+    
+    return row;
   };
 
   reloadRows = (rows) => {
@@ -214,11 +264,30 @@ class Grid extends Component {
     for (let i = fromRow; i <= toRow; i++) {
       let rowToUpdate = rows[i];
       let updatedRow = update(rowToUpdate, {$merge: updated});
+
+      if(updatedRow.nome && updatedRow.reino) {
+        updatedRow = atualizaLinha(updatedRow.reino, updatedRow.nome, 'us', 3, this, i, rows);
+      }
+
       rows[i] = updatedRow;
     }
 
     this.setState({ rows });
   };
+
+  excluirLinha(column, row) {
+    let rows = this.state ? this.state.rows : [];
+    rows = rows.filter(x => x.nome !== row.nome);
+    let _this = this;
+    if(column.key === 'nome') {
+      return [
+        {
+          icon: <Icon name='remove'></Icon>,
+          callback: () => { _this.setState({ rows }); }
+        },
+      ];
+    }  
+  }
 
   render() {
     return  (
@@ -232,6 +301,8 @@ class Grid extends Component {
           rowsCount={this.state.rows.length}
           minHeight={500} 
           onGridRowsUpdated={this.handleGridRowsUpdated}
+          getCellActions={ (column, row) => this.excluirLinha(column, row) }
+          toolbar={<Toolbar onAddRow={this.handleAddRow}/>}
           />
       </DraggableContainer>
       <Button
@@ -264,6 +335,23 @@ async function createRow(reino, nome, regiao, delay, grid) {
       let ilvlItems = warcraftAPI.getToonIlvlAllItems(resultado);
       let thumbnail = resultado.thumbnail;
       grid.createRows(classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao);
+    }
+  });
+}
+
+async function atualizaLinha(reino, nome, regiao, delay, grid, i, rows) {
+  await sleep(delay);
+  warcraftAPI.getToon(regiao, reino, nome, 3).then((resultado) => {
+    if(resultado.status !== "nok") {
+      let ilvl = warcraftAPI.getToonIlvl(resultado);
+      let classe = warcraftAPI.getToonClass(resultado);
+      let spec = warcraftAPI.getSpecializationName(resultado);
+      let ilvlItems = warcraftAPI.getToonIlvlAllItems(resultado);
+      let thumbnail = resultado.thumbnail;
+
+      rows[i] = grid.crieLinha(classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao);;
+
+      grid.setState({ rows }); 
     }
   });
 }
