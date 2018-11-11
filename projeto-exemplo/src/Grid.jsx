@@ -135,7 +135,7 @@ class Grid extends Component {
   };
 
   updateRow = (row, regiao, reino, nome) => {
-    warcraftAPI.getToon(regiao, reino, nome).then((resultado) => {
+    warcraftAPI.getToon(regiao, reino, nome, 3).then((resultado) => {
       if(resultado.status !== "nok") {
         row.classe = warcraftAPI.getToonClass(resultado);
         row.spec = warcraftAPI.getSpecializationName(resultado);
@@ -256,7 +256,7 @@ function sleep(ms) {
 
 async function createRow(reino, nome, regiao, delay, grid) {
   await sleep(delay);
-  warcraftAPI.getToon(regiao, reino, nome).then((resultado) => {
+  warcraftAPI.getToon(regiao, reino, nome, 3).then((resultado) => {
     if(resultado.status !== "nok") {
       let ilvl = warcraftAPI.getToonIlvl(resultado);
       let classe = warcraftAPI.getToonClass(resultado);
