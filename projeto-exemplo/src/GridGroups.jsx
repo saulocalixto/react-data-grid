@@ -6,6 +6,7 @@ import { Button } from 'semantic-ui-react'
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom'
 import * as Map from "./Maps.js";
+import { Icon } from 'semantic-ui-react';
 
 const { DropDownEditor } = Editors;
 
@@ -15,14 +16,14 @@ class GridCharacters extends Component {
 
     state = {
         columns: [
-            { 
-                key: 'reino',
-                name: 'Reino', 
-                editable: true,   
-            },
-            { 
-                key: 'nome', 
-                name: 'Nome',
+           { 
+                key: 'id', 
+                name: 'ID',
+                editable: false,  
+           }, 
+           { 
+                key: 'nome_do_grupo', 
+                name: 'Nome do grupo',
                 editable: true,  
             },
             { 
@@ -30,7 +31,7 @@ class GridCharacters extends Component {
                 name: 'Regiao',
                 editable: true,  
                 editor: <DropDownEditor options={regioes}/>,
-             },
+             }
         ],
         rows: []
       };
@@ -39,26 +40,20 @@ class GridCharacters extends Component {
         let rows = this.state.rows;
     
         rows.push({
-        reino: 'Goldrinn',
-        nome: 'Pyroclásmica',
-        regiao: 'us',
-        });
-
-        rows.push({
-          reino: 'Azralon',
-          nome: 'Halo',
+          id: '001',
+          nome_do_grupo: 'Grupo 1',
           regiao: 'us',
         });
 
         rows.push({
-          reino: 'Burning Legion',
-          nome: 'Cjei',
+          id: '002',
+          nome_do_grupo: 'Grupo 2',
           regiao: 'us',
         });
 
         rows.push({
-          reino: 'Burning Legion',
-          nome: 'Armous',
+          id: '003',
+          nome_do_grupo: 'Grupo 3',
           regiao: 'us',
         });
 
@@ -70,11 +65,10 @@ class GridCharacters extends Component {
         this.props.history.push("/wow");
       }
 
-      createRows = (regiao, reino, nome) => {
+      createRows = (regiao, nome) => {
         let rows = this.state.rows;
     
         rows.push({
-        reino: reino,
         nome: nome,
         regiao: regiao,
         });
@@ -110,19 +104,38 @@ class GridCharacters extends Component {
     
         this.setState({ rows });
       };
+
+      getCellActions(column, row) {
+        let _this = this;
+        if(column.key === 'nome_do_grupo') {
+          return [
+            {
+              icon: <Icon name='external alternate'></Icon>,
+              callback: () => {
+                // alert("Deleting" + row.id);
+                console.log(_this);
+                _this.props.history.push('/')
+                //_this.props.history.push("/wow");
+              }
+            },
+          ];
+        }
+      }
   
     render() {
       return (
           <div>
                 <ReactDataGrid
-                ref={ node => this.grid = node }
-                    enableCellSelect={true}
-                    columns={this.state.columns}
-                    rowGetter={this.rowGetter}
-                    rowsCount={this.state.rows.length}
-                    onGridRowsUpdated={this.handleGridRowsUpdated}
-                    toolbar={<Toolbar onAddRow={this.handleAddRow}/>}
-                    minHeight={450} />
+                  ref={ node => this.grid = node }
+                  enableCellSelect={true}
+                  columns={this.state.columns}
+                  rowGetter={this.rowGetter}
+                  rowsCount={this.state.rows.length}
+                  onGridRowsUpdated={this.handleGridRowsUpdated}
+                  toolbar={<Toolbar onAddRow={this.handleAddRow}/>}
+                  minHeight={450} 
+                  getCellActions={this.getCellActions}
+                />
 
                 <Button
                     onClick={this.handleClick} 

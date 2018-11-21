@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import Grid from './Grid'
-import GridCharacters from './GridCharacters'
 import { Header } from 'semantic-ui-react'
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import * as Map from "./Maps.js";
+import GridGroups from './GridGroups';
 
 class App extends Component {
 
@@ -15,9 +15,12 @@ class App extends Component {
       <div className="App" style={{ padding: 10 }}>
       <Route
                 exact
-                path="/wow"
-                render={() => (
-                  <Grid /> 
+                path="/:groupId"
+                render={({match}) => (
+                  <div>
+                    {match.params.groupId}
+                    <Grid /> 
+                  </div>                  
                 )}
               />
 
@@ -26,8 +29,8 @@ class App extends Component {
                 path="/"
                 render={() => (
                   <div>
-                    <Header as='h1'>Adicione os personagens que deseja ver...</Header>
-                    <GridCharacters />
+                    <Header as='h3'>Meus grupos</Header>
+                    <GridGroups />
                   </div>
                 )}
               />

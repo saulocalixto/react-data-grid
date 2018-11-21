@@ -9,6 +9,7 @@ import { Formatters, Toolbar } from 'react-data-grid-addons';
 import GridSettings from "./GridSettings";
 import update from 'immutability-helper';
 import { Icon } from 'semantic-ui-react';
+
 const {
   DraggableHeader: { DraggableContainer }
 } = require('react-data-grid-addons');
