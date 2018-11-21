@@ -85,6 +85,36 @@ class Grid extends Component {
     originalRows: []
   };
 
+  componentDidMount = () => {
+    let rows = this.state.rows;
+
+    rows.push({
+      reino: 'Goldrinn',
+      nome: 'Pyroclásmica',
+      regiao: 'us',
+      });
+
+      rows.push({
+        reino: 'Azralon',
+        nome: 'Halo',
+        regiao: 'us',
+      });
+
+      rows.push({
+        reino: 'Burning Legion',
+        nome: 'Cjei',
+        regiao: 'us',
+      });
+
+      rows.push({
+        reino: 'Burning Legion',
+        nome: 'Armous',
+        regiao: 'us',
+});
+
+    this.setState({ rows });
+  }
+
   handleAddRow = ({ newRowIndex }) => {
     const newRow = {
         value: newRowIndex,
