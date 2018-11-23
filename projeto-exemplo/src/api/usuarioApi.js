@@ -15,8 +15,9 @@ export const getAPI = (region) => {
  * @param {string} toonName
  */
 export const getToon = (region, realmName, toonName, tries) => {
+  console.log(toonName + '-' + realmName);
   tries--;
-  return fetch(`${getAPI(region)}/character/${realmName}/${toonName}?fields=reputation,statistics,items,quests,achievements,audit,progression,feed,professions,talents&?locale=pt_BR&apikey=${key}`, {
+  return fetch(`${getAPI('us')}/character/${realmName}/${toonName}?fields=reputation,statistics,items,quests,achievements,audit,progression,feed,professions,talents&?locale=pt_BR&apikey=${key}`, {
     method: 'GET'
   }).then(res => res.json()).catch(function(error) {
     if (tries <= 0) throw error;
@@ -142,7 +143,7 @@ export const getSpecializationName = (toon) => {
  * @param {string} region 'us' para Americas ou 'eu' para Europa
  */
 export const getToonImageURL = (toonThumb, region) => {
-  return `http://render-${region}.worldofwarcraft.com/character/${toonThumb}`
+  return `http://render-${'us'}.worldofwarcraft.com/character/${toonThumb}`
 };
 
 /**

@@ -88,12 +88,6 @@ class Grid extends Component {
   componentDidMount = () => {
     let rows = this.state.rows;
 
-    rows.push({
-      reino: 'Goldrinn',
-      nome: 'Pyroclásmica',
-      regiao: 'us',
-      });
-
       rows.push({
         reino: 'Azralon',
         nome: 'Halo',
@@ -101,14 +95,8 @@ class Grid extends Component {
       });
 
       rows.push({
-        reino: 'Burning Legion',
-        nome: 'Cjei',
-        regiao: 'us',
-      });
-
-      rows.push({
-        reino: 'Burning Legion',
-        nome: 'Armous',
+        reino: 'Azralon',
+        nome: 'Galneryus',
         regiao: 'us',
 });
 
