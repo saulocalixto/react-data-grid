@@ -134,14 +134,7 @@ class GridCharacters extends Component {
                 //getCellActions={this.getCellActions}
                 getCellActions={ (column, row) => this.irParaGrupo(column, row) }
               />
-
-              <Button
-                  onClick={this.handleClick} 
-                  secondary style={{ marginTop: 10 }}>
-                      Continue
-              </Button>
-
-              </div>
+        </div>
     );
   }
 }
