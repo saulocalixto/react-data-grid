@@ -21,7 +21,7 @@ class Grid extends Component {
   state = {
     rows: [],
     columns: [
-      { key: 'reino', name: 'Reino', width: 170, draggable: true, editable: true },
+      { key: 'reino', name: 'Reino', width: 170, draggable: true, editable: true, visivel: true },
       { key: 'nome', name: 'Nome', width: 170, sortable: true, draggable: true, editable: true },
       { key: 'avatar', name: 'Avatar', width: 60, formatter: Formatters.ImageFormatter, draggable: true },
       { key: 'classe', name: 'Classe', sortable: true, draggable: true },
@@ -129,12 +129,11 @@ class Grid extends Component {
     }
     
     let originalRows = rows;
-    let columns = this.columns;
     let grupo = this.props.grupo;
     grupos = grupos.filter(x => x.id !== grupo.id);
     grupo.personagens = rows;
     grupos.push(grupo); 
-    this.setState({ columns, originalRows, rows });
+    this.setState({ originalRows, rows });
     this.props.AtualizaGrupos(grupos);
   };
 
@@ -181,10 +180,10 @@ class Grid extends Component {
   onHeaderDrop = (source, target) => {
     const stateCopy = Object.assign({}, this.state);
 
-    const columnSourceIndex = this.state.columns.findIndex(
+    const columnSourceIndex = stateCopy.columns.findIndex(
       i => i.key === source
     );
-    const columnTargetIndex = this.state.columns.findIndex(
+    const columnTargetIndex = stateCopy.columns.findIndex(
       i => i.key === target
     );
 
