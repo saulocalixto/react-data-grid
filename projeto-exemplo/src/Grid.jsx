@@ -9,6 +9,7 @@ import { Formatters, Toolbar } from 'react-data-grid-addons';
 import GridSettings from "./GridSettings";
 import update from 'immutability-helper';
 import { Icon } from 'semantic-ui-react';
+import jsonFile from 'jsonfile'
 
 const {
   DraggableHeader: { DraggableContainer }
@@ -16,45 +17,6 @@ const {
 
 
 class Grid extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    let delay = 0;
-    this.props.personagens.forEach(personagem => {
-      const { reino, nome, regiao } = personagem;
-
-      // Cria as linhas fazendo cada requisição com um delay de uma para outra
-      // para não afogar o serviço, fazendo com que a API não pare de responder
-      // ao mandar uma grande quantidade de personagens de uma só vez.
-      this.regiao = regiao;
-      createRow(reino, nome, regiao, delay, this);
-      delay += 50;
-    });
-
-    this.columns = [
-      { key: 'reino', name: 'Reino', width: 170, draggable: true, editable: true },
-      { key: 'nome', name: 'Nome', width: 170, sortable: true, draggable: true, editable: true },
-      { key: 'avatar', name: 'Avatar', width: 60, formatter: Formatters.ImageFormatter, draggable: true },
-      { key: 'classe', name: 'Classe', width: 150, sortable: true, draggable: true },
-      { key: 'spec', name: 'Especialização', width: 150, sortable: true, draggable: true },
-      { key: 'ilvl', name: 'Item Level', width: 120, sortable: true, draggable: true },
-      { key: 'cabeca', name: 'Cabeça', sortable: true, draggable: true },
-      { key: 'colar', name: 'Colar', sortable: true, draggable: true },
-      { key: 'ombros', name: 'Ombros', sortable: true, draggable: true },
-      { key: 'peitoral', name: 'Peitoral', sortable: true, draggable: true },
-      { key: 'manto', name: 'Manto', sortable: true, draggable: true },
-      { key: 'pulsos', name: 'Pulsos', sortable: true, draggable: true },
-      { key: 'maos', name: 'Mãos', sortable: true, draggable: true },
-      { key: 'cintura', name: 'Cintura', sortable: true, draggable: true },
-      { key: 'pernas', name: 'Pernas', sortable: true, draggable: true },
-      { key: 'pes', name: 'Pés', sortable: true, draggable: true },
-      { key: 'anel1', name: 'Anel 1', sortable: true, draggable: true },
-      { key: 'anel2', name: 'Anel 2', sortable: true, draggable: true },
-      { key: 'berloque1', name: 'Berloque 1', width: 100, sortable: true, draggable: true },
-      { key: 'berloque2', name: 'Berloque 2', width: 100, sortable: true, draggable: true },
-      { key: 'armaPrincipal', name: 'Arma Principal', width: 140, sortable: true, draggable: true },
-      { key: 'armaSecundaria', name: 'Arma Secundária', width: 140, sortable: true, draggable: true }];
-  }
 
   state = {
     rows: [],
@@ -82,25 +44,20 @@ class Grid extends Component {
       { key: 'armaPrincipal', name: 'Arma Principal', width: 140, sortable: true, draggable: true },
       { key: 'armaSecundaria', name: 'Arma Secundária', width: 140, sortable: true, draggable: true }
     ],
-    originalRows: []
+    originalRows: [],
+    regiao : ''
   };
 
   componentDidMount = () => {
-    let rows = this.state.rows;
+    let regiao = this.props.grupo ? this.props.grupo.regiao : '';
 
-      rows.push({
-        reino: 'Azralon',
-        nome: 'Halo',
-        regiao: 'us',
-      });
+      let rows = this.props.grupo ? this.props.grupo.personagens : [];
 
-      rows.push({
-        reino: 'Azralon',
-        nome: 'Galneryus',
-        regiao: 'us',
-});
+    this.setState({ regiao, rows })
+  }
 
-    this.setState({ rows });
+  componentWillUnmount = () => {
+    ////this.saveJson();
   }
 
   handleAddRow = ({ newRowIndex }) => {
@@ -115,8 +72,26 @@ class Grid extends Component {
     this.setState({ rows });
   };
 
+  createRow(personagemId) {
+    warcraftAPI.getToon(personagemId.regiao, personagemId.reino, personagemId.nome).then((resultado) => {
+      if(resultado.status !== "nok") {
+        let ilvl = warcraftAPI.getToonIlvl(resultado);
+        let classe = warcraftAPI.getToonClass(resultado);
+        let spec = warcraftAPI.getSpecializationName(resultado);
+        let ilvlItems = warcraftAPI.getToonIlvlAllItems(resultado);
+        let thumbnail = resultado.thumbnail;
+        this.createRows(classe, spec, ilvl, ilvlItems, personagemId.nome, personagemId.reino, thumbnail, personagemId.regiao);
+      }
+    });
+  }
+
   createRows = (classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao) => {
     let rows = this.state.rows;
+    let grupos = this.props.grupos;
+
+    if(this.state.rows.find(x => x.nome === nome && x.reino === reino)) {
+      return;
+    }
 
     // Por algum motivo o createRolls está sendo chamado sem enviar nenhum parâmetro. A condicional abaixo resolve exceções quando allIlvl é null, ou seja, não é enviado.
     let allItemIlvl = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
@@ -153,49 +128,20 @@ class Grid extends Component {
       });
     }
     
-    this.setState({ rows });
     let originalRows = rows;
-    this.setState({ originalRows });
     let columns = this.columns;
-    this.setState({ columns });
+    let grupo = this.props.grupo;
+    grupos = grupos.filter(x => x.id !== grupo.id);
+    grupo.personagens = rows;
+    grupos.push(grupo); 
+    this.setState({ columns, originalRows, rows });
+    this.props.AtualizaGrupos(grupos);
   };
 
-  crieLinha = (classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao) => {
-    // Por algum motivo o createRolls está sendo chamado sem enviar nenhum parâmetro. A condicional abaixo resolve exceções quando allIlvl é null, ou seja, não é enviado.
-    let allItemIlvl = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
-    if (!ilvlItems) {
-      allItemIlvl = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
-    }else {
-      allItemIlvl = ilvlItems;
-    }
-
-      let row = {
-        reino: reino,
-        avatar: warcraftAPI.getToonImageURL(thumbnail, regiao),
-        nome: nome,
-        classe: classe,
-        spec: spec,
-        ilvl: ilvl,
-        cabeca: allItemIlvl[0],
-        colar: allItemIlvl[1],
-        ombros: allItemIlvl[2],
-        peitoral: allItemIlvl[3],
-        manto: allItemIlvl[4],
-        pulsos: allItemIlvl[5],
-        maos: allItemIlvl[6],
-        cintura: allItemIlvl[7],
-        pernas: allItemIlvl[8],
-        pes: allItemIlvl[9],
-        anel1: allItemIlvl[10],
-        anel2: allItemIlvl[11],
-        berloque1: allItemIlvl[12],
-        berloque2: allItemIlvl[13],
-        armaPrincipal: allItemIlvl[14],
-        armaSecundaria: allItemIlvl[15]
-      };
-    
-    return row;
-  };
+  saveJson = () => {
+    let grupos = this.props.grupos;
+    jsonFile.writeFile("./grupos.json", grupos);
+  }
 
   reloadRows = (rows) => {
     for(let i = 0; i < rows.length; i++) {
@@ -204,7 +150,7 @@ class Grid extends Component {
   };
 
   updateRow = (row, regiao, reino, nome) => {
-    warcraftAPI.getToon(regiao, reino, nome, 3).then((resultado) => {
+    warcraftAPI.getToon(regiao, reino, nome).then((resultado) => {
       if(resultado.status !== "nok") {
         row.classe = warcraftAPI.getToonClass(resultado);
         row.spec = warcraftAPI.getSpecializationName(resultado);
@@ -283,15 +229,20 @@ class Grid extends Component {
     for (let i = fromRow; i <= toRow; i++) {
       let rowToUpdate = rows[i];
       let updatedRow = update(rowToUpdate, {$merge: updated});
-
-      if(updatedRow.nome && updatedRow.reino) {
-        updatedRow = atualizaLinha(updatedRow.reino, updatedRow.nome, 'us', 3, this, i, rows);
+      let personagemId = {
+        reino: updatedRow.reino,
+        nome: updatedRow.nome,
+        regiao: this.state.regiao
       }
-
-      rows[i] = updatedRow;
+      if(updatedRow.nome !== "" && updatedRow.reino !== "") {
+        let newRows = rows.filter(x => x.value !== updatedRow.value);
+        this.setState({ rows: newRows });
+        updatedRow = this.createRow(personagemId);
+      } else {
+        rows[i] = updatedRow;
+        this.setState({ rows })
+      }
     }
-
-    this.setState({ rows });
   };
 
   excluirLinha(column, row) {
@@ -338,41 +289,6 @@ class Grid extends Component {
       </div>
     );
   }
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function createRow(reino, nome, regiao, delay, grid) {
-  await sleep(delay);
-  warcraftAPI.getToon(regiao, reino, nome, 3).then((resultado) => {
-    if(resultado.status !== "nok") {
-      let ilvl = warcraftAPI.getToonIlvl(resultado);
-      let classe = warcraftAPI.getToonClass(resultado);
-      let spec = warcraftAPI.getSpecializationName(resultado);
-      let ilvlItems = warcraftAPI.getToonIlvlAllItems(resultado);
-      let thumbnail = resultado.thumbnail;
-      grid.createRows(classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao);
-    }
-  });
-}
-
-async function atualizaLinha(reino, nome, regiao, delay, grid, i, rows) {
-  await sleep(delay);
-  warcraftAPI.getToon(regiao, reino, nome, 3).then((resultado) => {
-    if(resultado.status !== "nok") {
-      let ilvl = warcraftAPI.getToonIlvl(resultado);
-      let classe = warcraftAPI.getToonClass(resultado);
-      let spec = warcraftAPI.getSpecializationName(resultado);
-      let ilvlItems = warcraftAPI.getToonIlvlAllItems(resultado);
-      let thumbnail = resultado.thumbnail;
-
-      rows[i] = grid.crieLinha(classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao);;
-
-      grid.setState({ rows }); 
-    }
-  });
 }
 
 export default withRouter(connect(Map.mapStateToProps, Map.mapDispatchToProps)(Grid));

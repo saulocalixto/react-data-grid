@@ -11,15 +11,21 @@ import GridGroups from './GridGroups';
 class App extends Component {
 
   render() {
+    const { grupos } = this.props;
     return (
       <div className="App" style={{ padding: 10 }}>
       <Route
                 exact
-                path="/:groupId"
-                render={({match}) => (
+                path="/wow/:groupId"
+                render={({ match: { params: { groupId } } }) => (
                   <div>
-                    {match.params.groupId}
-                    <Grid /> 
+                    {
+                      <div>
+                      <Header as='h3'>{`Grupo - ${grupos.length > 0 ? grupos.find(x => x.id == groupId).nome_do_grupo : "--"}`}</Header>
+                      <Grid grupo = {this.props.grupos.find(x => x.id == groupId)} /> 
+                      </div>
+                    }
+                    
                   </div>                  
                 )}
               />

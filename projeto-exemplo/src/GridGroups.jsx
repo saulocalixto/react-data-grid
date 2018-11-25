@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import ReactDataGrid from 'react-data-grid'
 import { Toolbar, Editors } from 'react-data-grid-addons';
 import update from 'immutability-helper';
-import { Button } from 'semantic-ui-react'
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom'
 import * as Map from "./Maps.js";
@@ -21,7 +20,7 @@ class GridCharacters extends Component {
               name: 'ID',
               editable: false,  
           }, 
-          { 
+          {
               key: 'nome_do_grupo', 
               name: 'Nome do grupo',
               editable: true,  
@@ -33,36 +32,14 @@ class GridCharacters extends Component {
               editor: <DropDownEditor options={regioes}/>,
             }
       ],
-      rows: []
+      rows: [],
+      id : 0
   };
 
   componentDidMount = () => {
     let rows = this.state.rows;
 
-    rows.push({
-      id: '001',
-      nome_do_grupo: 'Grupo 1',
-      regiao: 'us',
-    });
-
-    rows.push({
-      id: '002',
-      nome_do_grupo: 'Grupo 2',
-      regiao: 'us',
-    });
-
-    rows.push({
-      id: '003',
-      nome_do_grupo: 'Grupo 3',
-      regiao: 'us',
-    });
-
     this.setState({ rows });
-  }
-
-  handleClick = () =>  {
-    this.props.EnviaPersonagens(this.state.rows);  
-    this.props.history.push("/wow");
   }
 
   createRows = (regiao, nome) => {
@@ -77,24 +54,26 @@ class GridCharacters extends Component {
   };
 
   rowGetter = (i) => {
-    return this.state.rows.length > 0 ? this.state.rows[i] : null;
+    return this.props.grupos.length > 0 ? this.props.grupos[i] : null;
   };
 
   handleAddRow = ({ newRowIndex }) => {
+    let ids = this.props.grupos.map(x => x.id);
+    let id = ids.length > 0 ? Math.max.apply( null, ids ) + 1 : 1;
+    this.setState({ id });
     const newRow = {
         value: newRowIndex,
         reino: '',
         nome: '',
         classe: '',
+        id,
+        personagens: []
     };
-
-    let rows = this.state.rows.slice();
-    rows = update(rows, {$push: [newRow]});
-    this.setState({ rows });
+    this.props.AdicionaGrupo(newRow, this.props.grupos);  
   };
 
   handleGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-    let rows = this.state.rows.slice();
+    let rows = this.props.grupos.slice();
 
     for (let i = fromRow; i <= toRow; i++) {
       let rowToUpdate = rows[i];
@@ -102,7 +81,7 @@ class GridCharacters extends Component {
       rows[i] = updatedRow;
     }
 
-    this.setState({ rows });
+    this.props.AtualizaGrupos(rows);
   };
 
   irParaGrupo(column, row) {
@@ -112,7 +91,9 @@ class GridCharacters extends Component {
         {
           icon: <Icon name='external alternate'></Icon>,
           callback: () => {
-            _this.props.history.push("/wow");
+            if(row.nome_do_grupo) {
+              _this.props.history.push(`/wow/${row.id}`);
+            }
           }
         },
       ];
@@ -127,11 +108,10 @@ class GridCharacters extends Component {
                 enableCellSelect={true}
                 columns={this.state.columns}
                 rowGetter={this.rowGetter}
-                rowsCount={this.state.rows.length}
+                rowsCount={this.props.grupos.length}
                 onGridRowsUpdated={this.handleGridRowsUpdated}
                 toolbar={<Toolbar onAddRow={this.handleAddRow}/>}
                 minHeight={450} 
-                //getCellActions={this.getCellActions}
                 getCellActions={ (column, row) => this.irParaGrupo(column, row) }
               />
         </div>

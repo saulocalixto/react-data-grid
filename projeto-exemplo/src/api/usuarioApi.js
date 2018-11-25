@@ -14,19 +14,11 @@ export const getAPI = (region) => {
  * @param {string} realmName
  * @param {string} toonName
  */
-export const getToon = (region, realmName, toonName, tries) => {
-  console.log(toonName + '-' + realmName);
-  tries--;
-  return fetch(`${getAPI('us')}/character/${realmName}/${toonName}?fields=reputation,statistics,items,quests,achievements,audit,progression,feed,professions,talents&?locale=pt_BR&apikey=${key}`, {
+export const getToon = (region, realmName, toonName) => {
+  return fetch(`${getAPI(region)}/character/${realmName}/${toonName}?fields=reputation,statistics,items,quests,achievements,audit,progression,feed,professions,talents&?locale=pt_BR&apikey=${key}`, {
     method: 'GET'
-  }).then(res => res.json()).catch(function(error) {
-    if (tries <= 0) throw error;
-    return getToon(region, realmName, toonName, tries);
-  })
-  .then(data => data).catch(function(error) {
-    if (tries <= 0) throw error;
-    return getToon(region, realmName, toonName, tries);
-  });
+  }).then(res => res.json())
+  .then(data => data);
 }
 
 /**
