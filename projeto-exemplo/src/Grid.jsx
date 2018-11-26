@@ -22,27 +22,27 @@ class Grid extends Component {
     rows: [],
     columns: [
       { key: 'reino', name: 'Reino', width: 170, draggable: true, editable: true, visivel: true },
-      { key: 'nome', name: 'Nome', width: 170, sortable: true, draggable: true, editable: true },
-      { key: 'avatar', name: 'Avatar', width: 60, formatter: Formatters.ImageFormatter, draggable: true },
-      { key: 'classe', name: 'Classe', sortable: true, draggable: true },
-      { key: 'spec', name: 'Especialização', width: 150, sortable: true, draggable: true },
-      { key: 'ilvl', name: 'Item Level', sortable: true, draggable: true },
-      { key: 'cabeca', name: 'Cabeça', sortable: true, draggable: true },
-      { key: 'colar', name: 'Colar', sortable: true, draggable: true },
-      { key: 'ombros', name: 'Ombros', sortable: true, draggable: true },
-      { key: 'peitoral', name: 'Peitoral', sortable: true, draggable: true },
-      { key: 'manto', name: 'Manto', sortable: true, draggable: true },
-      { key: 'pulsos', name: 'Pulsos', sortable: true, draggable: true },
-      { key: 'maos', name: 'Mãos', sortable: true, draggable: true },
-      { key: 'cintura', name: 'Cintura', sortable: true, draggable: true },
-      { key: 'pernas', name: 'Pernas', sortable: true, draggable: true },
-      { key: 'pes', name: 'Pés', sortable: true, draggable: true },
-      { key: 'anel1', name: 'Anel 1', sortable: true, draggable: true },
-      { key: 'anel2', name: 'Anel 2', sortable: true, draggable: true },
-      { key: 'berloque1', name: 'Berloque 1', width: 100, sortable: true, draggable: true },
-      { key: 'berloque2', name: 'Berloque 2', width: 100, sortable: true, draggable: true },
-      { key: 'armaPrincipal', name: 'Arma Principal', width: 140, sortable: true, draggable: true },
-      { key: 'armaSecundaria', name: 'Arma Secundária', width: 140, sortable: true, draggable: true }
+      { key: 'nome', name: 'Nome', width: 170, sortable: true, draggable: true, editable: true, visivel: true },
+      { key: 'avatar', name: 'Avatar', width: 60, formatter: Formatters.ImageFormatter, draggable: true, visivel: true },
+      { key: 'classe', name: 'Classe', sortable: true, draggable: true, visivel: true },
+      { key: 'spec', name: 'Especialização', width: 150, sortable: true, draggable: true, visivel: false },
+      { key: 'ilvl', name: 'Item Level', sortable: true, draggable: true, visivel: false },
+      { key: 'cabeca', name: 'Cabeça', sortable: true, draggable: true, visivel: false },
+      { key: 'colar', name: 'Colar', sortable: true, draggable: true, visivel: false },
+      { key: 'ombros', name: 'Ombros', sortable: true, draggable: true, visivel: false },
+      { key: 'peitoral', name: 'Peitoral', sortable: true, draggable: true, visivel: false },
+      { key: 'manto', name: 'Manto', sortable: true, draggable: true, visivel: false },
+      { key: 'pulsos', name: 'Pulsos', sortable: true, draggable: true, visivel: false },
+      { key: 'maos', name: 'Mãos', sortable: true, draggable: true, visivel: false },
+      { key: 'cintura', name: 'Cintura', sortable: true, draggable: true, visivel: false },
+      { key: 'pernas', name: 'Pernas', sortable: true, draggable: true, visivel: false },
+      { key: 'pes', name: 'Pés', sortable: true, draggable: true, visivel: false },
+      { key: 'anel1', name: 'Anel 1', sortable: true, draggable: true, visivel: false },
+      { key: 'anel2', name: 'Anel 2', sortable: true, draggable: true, visivel: false },
+      { key: 'berloque1', name: 'Berloque 1', width: 100, sortable: true, draggable: true, visivel: false },
+      { key: 'berloque2', name: 'Berloque 2', width: 100, sortable: true, draggable: true, visivel: false },
+      { key: 'armaPrincipal', name: 'Arma Principal', width: 140, sortable: true, draggable: true, visivel: false },
+      { key: 'armaSecundaria', name: 'Arma Secundária', width: 140, sortable: true, draggable: true, visivel: false }
     ],
     originalRows: [],
     regiao : ''
@@ -261,11 +261,25 @@ class Grid extends Component {
   render() {
     return  (
       <div>
+        <div className={"controle"} style={{ paddingBottom: 10, float: "right" }}>
+          <Button
+            onClick={ () => this.props.history.push("/") } 
+            secondary>
+                Voltar
+          </Button>
+          <Button
+            onClick={ () => this.reloadRows(this.state.rows) } 
+            secondary>
+                Atualizar
+          </Button>
+          <GridSettings 
+            colunas={ this.state.columns.map(x => { return { chave: x.key, label: x.name, visivel: x.visivel } }) }/>
+        </div>
       <DraggableContainer onHeaderDrop={this.onHeaderDrop}>
         <ReactDataGrid
           enableCellSelect={true}
           onGridSort={this.handleGridSort}
-          columns={this.state.columns}
+          columns={this.state.columns.filter(x => x.visivel)}
           rowGetter={this.rowGetter}
           rowsCount={this.state.rows.length}
           minHeight={500} 
@@ -273,18 +287,7 @@ class Grid extends Component {
           getCellActions={ (column, row) => this.excluirLinha(column, row) }
           toolbar={<Toolbar onAddRow={this.handleAddRow}/>}
           />
-      </DraggableContainer>
-      <Button
-        onClick={ () => this.props.history.push("/") } 
-        secondary style={{ marginTop: 10 }}>
-            Voltar
-      </Button>
-      <Button
-        onClick={ () => this.reloadRows(this.state.rows) } 
-        secondary style={{ marginTop: 10 }}>
-            Atualizar
-      </Button>
-      <GridSettings />
+      </DraggableContainer>  
       </div>
     );
   }

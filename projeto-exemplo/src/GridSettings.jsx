@@ -3,18 +3,13 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import * as Map from "./Maps.js";
-import { Button, Header, Image, Modal } from 'semantic-ui-react'
-import { Icon, Label, Menu, Table } from 'semantic-ui-react'
+import { Modal } from 'semantic-ui-react'
+import { Icon, Menu, Table } from 'semantic-ui-react'
 import { Checkbox } from 'semantic-ui-react'
 class GridSettings extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
 
-    
-    
     render() {
+        console.log(this.props.colunas);
         return (
             <Modal trigger={<Icon name="setting" size="big"></Icon>}>
                 <Modal.Header>Configuração da visibilidade de campos da tabela</Modal.Header>
@@ -29,39 +24,22 @@ class GridSettings extends Component {
                     </Table.Header>
         
                     <Table.Body>
-                        <Table.Row>
-                            <Table.Cell><Checkbox label='Reino' /></Table.Cell>
-                            <Table.Cell><Checkbox label='Nome' /></Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell><Checkbox label='Avatar' /></Table.Cell>
-                            <Table.Cell><Checkbox label='Classe' /></Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell><Checkbox label='Especialização' /></Table.Cell>
-                            <Table.Cell><Checkbox label='Item Level' /></Table.Cell>
-                            
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell><Checkbox label='Cabeça' /></Table.Cell>
-                            <Table.Cell><Checkbox label='Colar' /></Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell><Checkbox label='Ombros' /></Table.Cell>
-                            <Table.Cell><Checkbox label='Peitoral' /></Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell><Checkbox label='Manto' /></Table.Cell>
-                            <Table.Cell><Checkbox label='Pulsos' /></Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell><Checkbox label='Mãos' /></Table.Cell>
-                            <Table.Cell><Checkbox label='Cintura' /></Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell><Checkbox label='Pernas' /></Table.Cell>
-                            <Table.Cell><Checkbox label='Pés' /></Table.Cell>
-                        </Table.Row>
+                        {
+                            this.props.colunas.reduce((result, value, index, array) => {
+                                if (index % 2 === 0) {
+                                    result.push(array.slice(index, index + 2));
+                                }
+                                return  result;
+                              }, []).map((par) => (
+                                <Table.Row>
+                                    {
+                                        par.map(x => (
+                                            <Table.Cell><Checkbox key={x.chave} label={x.label} /></Table.Cell>
+                                        ))
+                                    }
+                                </Table.Row>
+                            ))
+                        }
                     </Table.Body>
         
                     <Table.Footer>
