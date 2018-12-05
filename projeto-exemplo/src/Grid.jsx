@@ -15,34 +15,62 @@ const {
   DraggableHeader: { DraggableContainer }
 } = require('react-data-grid-addons');
 
+// Formatter das colunas, usado para colorir determinadas células
+class ColumnFormatter extends React.Component{
+
+  constructor(props){
+    super(props);
+    this.opts = this.props.options;
+  }
+
+  averageIlvl = 370;
+
+  render(){
+    var backgroundColor = "#FFFFFF";
+    var textColor = '#000000';
+    
+    backgroundColor = warcraftAPI.getDefaultColor(this.props.value, this.averageIlvl);
+
+    switch(backgroundColor) {
+      default:
+        textColor = '#FFFFFF';
+        break;
+      case '#18f942':
+        textColor = '#000000';
+        break;
+    }
+
+    return (<div style={{backgroundColor:backgroundColor, color: textColor}}>{this.props.value}</div>);
+  }
+}
 
 class Grid extends Component {
 
   state = {
     rows: [],
     columns: [
-      { key: 'reino',           name: 'Reino',            width: 170,                 draggable: true, visivel: true,                     editable: true                                          },
-      { key: 'nome',            name: 'Nome',             width: 170, sortable: true, draggable: true, visivel: true,                     editable: true                                          },
-      { key: 'avatar',          name: 'Avatar',           width: 60,                  draggable: true, visivel: true,                                       formatter: Formatters.ImageFormatter  },
-      { key: 'classe',          name: 'Classe',                       sortable: true, draggable: true, visivel: true                                                                              },
-      { key: 'spec',            name: 'Especialização',   width: 150, sortable: true, draggable: true, visivel: true                                                                              },
-      { key: 'ilvl',            name: 'Item Level',                   sortable: true, draggable: true, visivel: true,   equipment: true                                                           },
-      { key: 'cabeca',          name: 'Cabeça',                       sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'colar',           name: 'Colar',                        sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'ombros',          name: 'Ombros',                       sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'peitoral',        name: 'Peitoral',                     sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'manto',           name: 'Manto',                        sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'pulsos',          name: 'Pulsos',                       sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'maos',            name: 'Mãos',                         sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'cintura',         name: 'Cintura',                      sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'pernas',          name: 'Pernas',                       sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'pes',             name: 'Pés',                          sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'anel1',           name: 'Anel 1',                       sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'anel2',           name: 'Anel 2',                       sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'berloque1',       name: 'Berloque 1',       width: 100, sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'berloque2',       name: 'Berloque 2',       width: 100, sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'armaPrincipal',   name: 'Arma Principal',   width: 140, sortable: true, draggable: true, visivel: false,  equipment: true                                                           },
-      { key: 'armaSecundaria',  name: 'Arma Secundária',  width: 140, sortable: true, draggable: true, visivel: false,  equipment: true                                                           }
+      { key: 'reino',           name: 'Reino',            width: 170,                 draggable: true, visivel: true,   editable: true                                       },
+      { key: 'nome',            name: 'Nome',             width: 170, sortable: true, draggable: true, visivel: true,   editable: true                                       },
+      { key: 'avatar',          name: 'Avatar',           width: 60,                  draggable: true, visivel: true,                   formatter: Formatters.ImageFormatter },
+      { key: 'classe',          name: 'Classe',                       sortable: true, draggable: true, visivel: true,                                                        },
+      { key: 'spec',            name: 'Especialização',   width: 150, sortable: true, draggable: true, visivel: true,                                                        },
+      { key: 'ilvl',            name: 'Item Level',                   sortable: true, draggable: true, visivel: true,                   formatter: ColumnFormatter           },
+      { key: 'cabeca',          name: 'Cabeça',                       sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'colar',           name: 'Colar',                        sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'ombros',          name: 'Ombros',                       sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'peitoral',        name: 'Peitoral',                     sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'manto',           name: 'Manto',                        sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'pulsos',          name: 'Pulsos',                       sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'maos',            name: 'Mãos',                         sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'cintura',         name: 'Cintura',                      sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'pernas',          name: 'Pernas',                       sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'pes',             name: 'Pés',                          sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'anel1',           name: 'Anel 1',                       sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'anel2',           name: 'Anel 2',                       sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'berloque1',       name: 'Berloque 1',       width: 100, sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'berloque2',       name: 'Berloque 2',       width: 100, sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'armaPrincipal',   name: 'Arma Principal',   width: 140, sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
+      { key: 'armaSecundaria',  name: 'Arma Secundária',  width: 140, sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           }
     ],
     originalRows: [],
     regiao : ''
@@ -140,6 +168,15 @@ class Grid extends Component {
   saveJson = () => {
     let grupos = this.props.grupos;
     jsonFile.writeFile("./grupos.json", grupos);
+  }
+
+  getAverageIlvl = (rows) => {
+    var averageIlvl = 0;
+    rows.forEach(row => {
+      averageIlvl += row.ilvl;
+    });
+    averageIlvl = averageIlvl / rows.length;
+    return averageIlvl;
   }
 
   reloadRows = (rows) => {
@@ -291,6 +328,6 @@ class Grid extends Component {
       </div>
     );
   }
-}
+} 
 
 export default withRouter(connect(Map.mapStateToProps, Map.mapDispatchToProps)(Grid));
