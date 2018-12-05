@@ -12,14 +12,4 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-/*Posicionar a modal corretamente. Deve-se retirar esse estilo e usar os parâmetros style do próprio componente
-* Este estilo é apenas provisório com finalidade de apresentação
-*/
-.visible.transition {
-  margin-top: auto !important;
-  display: inline-block !important;
-  top: 20%;
-  bottom: 10%;
-  left: 20%;
-  text-align: center;
-}
+
