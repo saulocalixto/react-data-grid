@@ -143,14 +143,14 @@ export const getToonImageURL = (toonThumb, region) => {
  * A cor retornada está no padrão HEX. Exemplo: '#ff1000' é vermelho.
  * @param {Integer} itemLevel
  */
-export const getDefaultColor = (itemLevel) => {
-  if (itemLevel >= 370)
+export const getDefaultColor = (itemLevel, averageItemLevel) => {
+  if (itemLevel >= averageItemLevel)
     return '#6617f9';
 
-  else if (itemLevel >= 340)
+  else if (itemLevel >= averageItemLevel - 10)
     return '#1437ff';
 
-  else if (itemLevel >= 325)
+  else if (itemLevel >= averageItemLevel - 20)
     return '#14c0ff';  
 
   return '#18f942';

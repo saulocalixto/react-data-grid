@@ -39,7 +39,7 @@ class GridSettings extends Component {
     }
 
     render() {
-        console.log("Colunas marcadas: ",this.state);
+        //console.log("Colunas marcadas: ",this.state);
         return (
             <Modal trigger={<Icon name="setting" size="big"></Icon>}>
                 <Modal.Header>Configuração da visibilidade de campos da tabela</Modal.Header>
@@ -60,7 +60,7 @@ class GridSettings extends Component {
                                 if (index % 2 === 0) {
                                     result.push(array.slice(index, index + 2));
                                 }
-                                console.log(result);
+                                //console.log(result);
                                 return  result;
                               }, []).map((par) => (
                                 
