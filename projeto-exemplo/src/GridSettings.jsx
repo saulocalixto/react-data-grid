@@ -9,13 +9,37 @@ import { Checkbox } from 'semantic-ui-react'
 class GridSettings extends Component {
 
     state = {
-        colunasMarcadas: []
+        colunasMarcadas: this.obtenhaColunasMarcadas
     }
 
-    handleClick = () => console.log(this.props.colunas)
+    handleClick = () => console.log("Click")
+
+    componentDidMount = () => {
+        let colunasMarcadas = this.obtenhaColunasMarcadas;
+        this.setState({colunasMarcadas})
+    }
+
+    obtenhaColunasMarcadas = () => {
+        let vetor = [];
+        this.props.colunas.reduce((result, value, index, array) => {
+            if (index % 2 === 0) {
+                result.push(array.slice(index, index + 2));
+            }
+            console.log(result);
+            return  result;
+        }, []).map((item) => {
+            item.map(x => {
+                if (x.visivel === true) {
+                    vetor.push(x);
+                }
+            })
+        })
+        console.log(vetor);
+        return vetor;
+    }
 
     render() {
-        console.log(this.props);
+        console.log("Colunas marcadas: ",this.state);
         return (
             <Modal trigger={<Icon name="setting" size="big"></Icon>}>
                 <Modal.Header>Configuração da visibilidade de campos da tabela</Modal.Header>
@@ -60,7 +84,7 @@ class GridSettings extends Component {
                         <Table.HeaderCell colSpan='3'>
                             <Button color="green" 
                                     content="Salvar"
-                                    onClick={this.handleClick}/>
+                                    onClick={this.obtenhaColunasMarcadas}/>
                             <Button color="red" 
                                     content="Cancelar"/>
                         </Table.HeaderCell>
