@@ -4,12 +4,18 @@ import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import * as Map from "./Maps.js";
 import { Modal } from 'semantic-ui-react'
-import { Icon, Menu, Table } from 'semantic-ui-react'
+import { Icon, Button, Table } from 'semantic-ui-react'
 import { Checkbox } from 'semantic-ui-react'
 class GridSettings extends Component {
 
+    state = {
+        colunasMarcadas: []
+    }
+
+    handleClick = () => console.log(this.props.colunas)
+
     render() {
-        console.log(this.props.colunas);
+        console.log(this.props);
         return (
             <Modal trigger={<Icon name="setting" size="big"></Icon>}>
                 <Modal.Header>Configuração da visibilidade de campos da tabela</Modal.Header>
@@ -26,16 +32,23 @@ class GridSettings extends Component {
                     <Table.Body>
                         {
                             this.props.colunas.reduce((result, value, index, array) => {
+                                
                                 if (index % 2 === 0) {
                                     result.push(array.slice(index, index + 2));
                                 }
+                                console.log(result);
                                 return  result;
                               }, []).map((par) => (
+                                
                                 <Table.Row>
                                     {
                                         par.map(x => (
-                                            <Table.Cell><Checkbox key={x.chave} label={x.label} /></Table.Cell>
-                                        ))
+                                            <Table.Cell>
+                                                <Checkbox key={x.chave} 
+                                                        label={x.label} 
+                                                        checked={x.visivel}/>
+                                            </Table.Cell>
+                                        ))   
                                     }
                                 </Table.Row>
                             ))
@@ -45,15 +58,11 @@ class GridSettings extends Component {
                     <Table.Footer>
                         <Table.Row>
                         <Table.HeaderCell colSpan='3'>
-                            <Menu floated='right' pagination>
-                            <Menu.Item as='a' icon>
-                                <Icon name='chevron left' />
-                            </Menu.Item>
-                            <Menu.Item as='a'>1</Menu.Item>
-                            <Menu.Item as='a' icon>
-                                <Icon name='chevron right' />
-                            </Menu.Item>
-                            </Menu>
+                            <Button color="green" 
+                                    content="Salvar"
+                                    onClick={this.handleClick}/>
+                            <Button color="red" 
+                                    content="Cancelar"/>
                         </Table.HeaderCell>
                         </Table.Row>
                     </Table.Footer>
