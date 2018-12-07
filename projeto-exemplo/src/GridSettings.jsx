@@ -70,7 +70,7 @@ class GridSettings extends Component {
                                             <Table.Cell>
                                                 <Checkbox key={x.chave} 
                                                         label={x.label} 
-                                                        checked={x.visivel}/>
+                                                        defaultChecked={x.visivel}/>
                                             </Table.Cell>
                                         ))   
                                     }
@@ -84,7 +84,7 @@ class GridSettings extends Component {
                         <Table.HeaderCell colSpan='3'>
                             <Button color="green" 
                                     content="Salvar"
-                                    onClick={this.obtenhaColunasMarcadas}/>
+                                    />
                             <Button color="red" 
                                     content="Cancelar"/>
                         </Table.HeaderCell>
