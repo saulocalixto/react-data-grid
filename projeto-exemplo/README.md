@@ -22,13 +22,3 @@ Para acessar um site de demonstração do WoW Group Manager, clique [aqui](https
     ```
  4. Por fim, depois que as dependências do projeto foram obtidas, ainda dentro
     do diretório acima, execute o comando **npm start**.
-
-## Ajustes
-Após o comando `npm install` ser rodado é criada a pasta *node_modules*. No caso a react-data-grid-wow está com um pequeno defeito, que para funcionar é preciso modificar um arquivo dentro desta pasta.
-
-Então, dentro da pasta *node_modules* encontre a pasta *react-data-grid-wow*. Dentro do arquivo *index.js* substitua a linha existente pelo seguinte:
-
-```
-module.exports = require('./dist/react-data-grid');
-
-```
