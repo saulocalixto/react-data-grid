@@ -183,7 +183,7 @@ class Grid extends Component {
 
   reloadRows = (rows) => {
     for(let i = 0; i < rows.length; i++) {
-      this.updateRow(rows[i], this.regiao, rows[i].reino, rows[i].nome);
+      this.updateRow(rows[i], this.state.regiao, rows[i].reino, rows[i].nome);
     }
   };
 
@@ -192,7 +192,7 @@ class Grid extends Component {
       if(resultado.status !== "nok") {
         row.classe = warcraftAPI.getToonClass(resultado);
         row.spec = warcraftAPI.getSpecializationName(resultado);
-        row.avatar = warcraftAPI.getToonImageURL(resultado.thumbnail, this.regiao);
+        row.avatar = warcraftAPI.getToonImageURL(resultado.thumbnail, regiao);
 
         let allItemIlvl = warcraftAPI.getToonIlvlAllItems(resultado);
         row.ilvl = warcraftAPI.getToonIlvl(resultado);
