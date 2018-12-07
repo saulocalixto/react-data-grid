@@ -54,6 +54,7 @@ class Grid extends Component {
       { key: 'avatar',          name: 'Avatar',           width: 60,                  draggable: true, visivel: true,                   formatter: Formatters.ImageFormatter },
       { key: 'classe',          name: 'Classe',                       sortable: true, draggable: true, visivel: true,                                                        },
       { key: 'spec',            name: 'Especialização',   width: 150, sortable: true, draggable: true, visivel: true,                                                        },
+      { key: 'funcao',          name: 'Função',           width: 150, sortable: true, draggable: true, visivel: true,                                                        },
       { key: 'ilvl',            name: 'Item Level',                   sortable: true, draggable: true, visivel: true,                   formatter: ColumnFormatter           },
       { key: 'cabeca',          name: 'Cabeça',                       sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
       { key: 'colar',           name: 'Colar',                        sortable: true, draggable: true, visivel: false,                  formatter: ColumnFormatter           },
@@ -106,14 +107,15 @@ class Grid extends Component {
         let ilvl = warcraftAPI.getToonIlvl(resultado);
         let classe = warcraftAPI.getToonClass(resultado);
         let spec = warcraftAPI.getSpecializationName(resultado);
+        let funcao = warcraftAPI.getRole(spec, classe);
         let ilvlItems = warcraftAPI.getToonIlvlAllItems(resultado);
         let thumbnail = resultado.thumbnail;
-        this.createRows(classe, spec, ilvl, ilvlItems, personagemId.nome, personagemId.reino, thumbnail, personagemId.regiao);
+        this.createRows(classe, spec, funcao, ilvl, ilvlItems, personagemId.nome, personagemId.reino, thumbnail, personagemId.regiao);
       }
     });
   }
 
-  createRows = (classe, spec, ilvl, ilvlItems, nome, reino, thumbnail, regiao) => {
+  createRows = (classe, spec, funcao, ilvl, ilvlItems, nome, reino, thumbnail, regiao) => {
     let rows = this.state.rows;
     let grupos = this.props.grupos;
 
@@ -136,6 +138,7 @@ class Grid extends Component {
         nome: nome,
         classe: classe,
         spec: spec,
+        funcao: funcao,
         ilvl: ilvl,
         cabeca: allItemIlvl[0],
         colar: allItemIlvl[1],
@@ -192,6 +195,7 @@ class Grid extends Component {
       if(resultado.status !== "nok") {
         row.classe = warcraftAPI.getToonClass(resultado);
         row.spec = warcraftAPI.getSpecializationName(resultado);
+        row.funcao = warcraftAPI.getRole(row.spec, row.classe);
         row.avatar = warcraftAPI.getToonImageURL(resultado.thumbnail, regiao);
 
         let allItemIlvl = warcraftAPI.getToonIlvlAllItems(resultado);
