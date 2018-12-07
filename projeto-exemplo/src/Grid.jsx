@@ -85,7 +85,7 @@ class Grid extends Component {
   }
 
   componentWillUnmount = () => {
-    ////this.saveJson();
+    this.saveJson();
   }
 
   handleAddRow = ({ newRowIndex }) => {
@@ -167,7 +167,9 @@ class Grid extends Component {
 
   saveJson = () => {
     let grupos = this.props.grupos;
-    jsonFile.writeFile("./grupos.json", grupos);
+    if(grupos.length > 0) {
+      localStorage.setItem('grupos', JSON.stringify(grupos));
+    }
   }
 
   getAverageIlvl = (rows) => {

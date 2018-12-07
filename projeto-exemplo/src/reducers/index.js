@@ -17,6 +17,13 @@ function wow(state = initialState, action) {
             personagens
           }
     }
+    case Type.CARREGA_GRUPOS: {
+      grupos = action.grupos;
+      return {
+        ...state,
+        grupos
+      }
+    }
     case Type.ADICIONA_GRUPO: {
       grupos = action.grupos;
       grupos.push(action.grupo);

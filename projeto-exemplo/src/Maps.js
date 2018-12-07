@@ -1,7 +1,8 @@
 import {
     enviaPersonagens,
     adicionaGrupo,
-    atualizaGrupos
+    atualizaGrupos,
+    carregaGrupos
   } from './actions'
   
   export const mapStateToProps = (store) => {
@@ -17,6 +18,7 @@ import {
     return {
       EnviaPersonagens: (personagens) => dispatch(enviaPersonagens(personagens)),
       AdicionaGrupo: (grupo, grupos) => dispatch(adicionaGrupo(grupo, grupos)),
-      AtualizaGrupos: (grupos) => dispatch(atualizaGrupos(grupos))
+      AtualizaGrupos: (grupos) => dispatch(atualizaGrupos(grupos)),
+      CarregaGrupos: (grupos) => dispatch(carregaGrupos(grupos))
     }
   }

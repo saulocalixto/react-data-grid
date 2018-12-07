@@ -1,4 +1,11 @@
 import * as Type from './type.js';
+
+export const carregaGrupos = (grupos) => {
+  return {
+    type: Type.CARREGA_GRUPOS,
+    grupos
+  }
+};
  
   export const enviaPersonagens = (personagens) => {
     return {

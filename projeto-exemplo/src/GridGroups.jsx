@@ -38,6 +38,10 @@ class GridCharacters extends Component {
 
   componentDidMount = () => {
     let rows = this.state.rows;
+    
+    let grupos = localStorage.getItem('grupos');
+
+    this.props.CarregaGrupos(grupos != null ? JSON.parse(grupos) : []);
 
     this.setState({ rows });
   }
