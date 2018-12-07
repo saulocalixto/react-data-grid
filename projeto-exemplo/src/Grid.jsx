@@ -183,7 +183,7 @@ class Grid extends Component {
 
   reloadRows = (rows) => {
     for(let i = 0; i < rows.length; i++) {
-      this.updateRow(rows[i], this.state.regiao, rows[i].reino, rows[i].nome);
+      this.updateRow(rows[i], this.props.grupo.regiao, rows[i].reino, rows[i].nome);
     }
   };
 
@@ -270,7 +270,7 @@ class Grid extends Component {
       let personagemId = {
         reino: updatedRow.reino,
         nome: updatedRow.nome,
-        regiao: this.state.regiao
+        regiao: this.props.grupo.regiao
       }
       if(updatedRow.nome !== "" && updatedRow.reino !== "") {
         let newRows = rows.filter(x => x.value !== updatedRow.value);
