@@ -1,6 +1,6 @@
-# PROJETO EXEMPLO
+# WOW GROUP MANAGER
 
-Projeto para testar a Grid Wow!
+O **WoW Group Manager**, como o próprio nome diz, é um gerenciador de grupos para o jogo [World of Warcraft](https://worldofwarcraft.com). O gerenciador é construído sob uma tabela (ou grid) que ajuda jogadores a terem uma visualização das informações que julga relevantes sobre os membros do seu grupo.
 
 ## Ajustes
 
